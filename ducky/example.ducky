@@ -1,5 +1,12 @@
 // This is a DuckyDocs file. You can install an extenstion to edit this file. Or use the buildin generator
 
-'use background: neutral-800'
+apply background: "gray"
 
-<h1>Hello This is an example for a nice documentation</h1>
+[h1] Welcome to a example page from {blue}|DuckyDocs|
+[break]
+[h3] This is an open source project made by |MaikyDev| to create nice and easy {red}**documentations**{white}, {purple}**showcases** {white}and {rose}**much more**
+[divider]
+[p] This is an example `public void` of a simple and **andvenced** adffghbrasfdb |click| me to go the [url href="https://google.com/"]google.com[/url] aks
+[break]
+[p] You can even **highlight** text as text as |you wish| sdfsdfsdfsdf
+[p] text as {red}|you wish|{reset} sdfsdfsdfsdf
