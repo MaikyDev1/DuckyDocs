@@ -4,9 +4,62 @@ apply background: "gray"
 
 [h1] Welcome to a example page from {blue}|DuckyDocs|
 [break]
-[h3] This is an open source project made by |MaikyDev| to create nice and easy {red}**documentations**{white}, {purple}**showcases** {white}and {rose}**much more**
-[divider]
-[p] This is an example `public void` of a simple and **andvenced** adffghbrasfdb |click| me to go the [url href="https://google.com/"]google.com[/url] aks
+[p] This is an open source project made by |MaikyDev| to create nice and easy {red}**documentations**{white}, {purple}**showcases** {reset}and {rose}**much more**
+[divider space="20"]
+[p] This is an example `public void` of a simple and andvenced adffghbrasfdb click me to go the [url href="https://google.com/"]google.com[/url] {white}aks
 [break]
 [p] You can even **highlight** text as text as |you wish| sdfsdfsdfsdf
 [p] text as {red}|you wish|{reset} sdfsdfsdfsdf
+[p] **Pauliciozautrul** este cea |mai| frumoasa {magenta}fata {reset}din lumea asta
+
+[info] An **info** block `code support` [url href="https://google.com/"]links too![/url]
+
+
+[expandable title="awawawaw"]
+[p] HELLO FROM THIS ELEMENT YOY!
+[p] asdasd
+[p] HELLO FROM THIS ELEMENT YOY!
+[p] asdasd
+[p] HELLO FROM THIS ELEMENT YOY!
+[p] asdasd
+[p] HELLO FROM THIS ELEMENT YOY!
+[p] asdasd
+[/expandable]
+
+[expandable title="Check the collapable element"]
+    [p] HELLO FROM THIS ELEMENT YOY!
+    [p] asdasd
+    [info] An **info** block `code support` [url href="https://google.com/"]links too![/url]
+    [p] HELLO FROM THIS ELEMENT YOY!
+    [p] asdasd
+    [expandable title="Check the collapable element"]
+        [p] INSIDE
+    [/expandable]
+    [p] HELLO FROM THIS ELEMENT YOY!
+    [p] asdasd
+    [code language="java" line_numbers="true"]
+        import net.maiky.flare.*;
+
+        @FlarePlugin
+        public void main(JavaPlugin plugin) {
+            plugin.start("now");
+        }
+    [/code]
+    [p] HELLO FROM THIS ELEMENT YOY!
+    [p] asdasd
+[/expandable]
+
+[divider space="20"]
+[h2] Welcome to more {rose}**unique components**
+[p] In this section we will present more components like: CodeBlock, Table, Tabs and graph
+
+[code language="java"]
+    import net.maiky.flare.*;
+
+    @FlarePlugin
+    public void main(JavaPlugin plugin) {
+        plugin.start("now");
+    }
+[/code]
+
+[p] final

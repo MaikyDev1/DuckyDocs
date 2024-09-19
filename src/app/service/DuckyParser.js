@@ -1,6 +1,8 @@
 import * as readline from "readline";
 import * as fs from "fs";
-import {Title1, Title2} from "@/app/components/DocsElements";
+import {Expandable, InfoBox, Title1, Title2} from "@/app/components/DocsElements";
+import {CodeBlock} from "@/app/components/AdvancedElements";
+import {CodeFailed} from "@/app/components/AdminElements";
 
 function getColor(color, alpha) {
     if(color.includes("#")) return hexToRGB(color, alpha)
@@ -22,6 +24,9 @@ function getColor(color, alpha) {
         default: return `rgb(255 255 255 / ${alpha ? alpha : 1})`
     }
 }
+
+const mainTextColor = "#000"
+const mainFontSize = "18"
 
 function hexToRGB(h, a) {
     let r = 0, g = 0, b = 0;
@@ -45,7 +50,20 @@ const DuckyMagic = async ({file}) => {
     const filestream = await fs.createReadStream(process.cwd() + `/ducky/${file}`);
 
     let html = [];
-
+    let under = 0;
+    const underElement = new Map();
+    function getContent (substract) {
+        if(underElement.has(substract ? under-substract : under)) { return underElement.get(substract ? under-substract : under).content; }
+        return html;
+    }
+    function getProps () {
+        if(underElement.has(under)) { return underElement.get(under).props; }
+        return null;
+    }
+    function getName () {
+        if(underElement.has(under)) { return underElement.get(under).element; }
+        return null;
+    }
     const rl = readline.createInterface({ input: filestream, crlfDelay: Infinity });
     let proprieties = {}
     let lines = '';
@@ -66,42 +84,113 @@ const DuckyMagic = async ({file}) => {
                 console.log("Found an error with the line NaN skipped");
             }
         } else if(!line.startsWith("//")) {
-            const regex = /\[(\w*)]\W?(.*)?/gm;
+            if(getName() === "code" && !line.includes("/code")) {
+                getContent().push(line); continue;
+            }
+            const regex = /\[([^ ]*)\W?([^\]]*)?/;
+            const content = line.split(/](.*)/s);
             if(line.match(regex)) {
-                const matcher = regex.exec(line);
+                const matcher = regex.exec(content[0]);
                 switch (matcher[1]) {
                     case "h1":
-                        html.push(<Title1>{applyFormation(matcher[2])}</Title1>); break;
+                        getContent().push(<Title1>{applyFormation(content[1])}</Title1>); break;
                     case "h2":
-                        html.push(<Title2>{applyFormation(matcher[2])}</Title2>); break;
+                        getContent().push(<Title2>{applyFormation(content[1])}</Title2>); break;
                     case "h3":
-                        html.push(<Title2>{applyFormation(matcher[2])}</Title2>); break;
+                        getContent().push(<Title2>{applyFormation(content[1])}</Title2>); break;
+                    case "p":
+                        getContent().push(<p className="text-white">{applyFormation(content[1])}</p>); break
                     case "divider":
-                        html.push(<div className="border-b-2 my-3"/>); break;
+                        let space=12, size=2;
+                        // check for params
+                        if(matcher[2] !== "") {
+                            const regex = /(\w*)="([^"]*)"/gm;
+                            let mat;
+                            while((mat = regex.exec(matcher[2])) !== null) {
+                                switch (mat[1]) {
+                                    case "size": size = mat[2]; break;
+                                    case "space": space = mat[2]; break;
+                                }
+                            }
+                        }
+                        getContent().push(<div style={{borderBottomWidth: `${size}px`, margin: `${space}px 0 ${space}px 0`}}/>); break;
                     case "break":
-                        html.push(<div className="h-5"/>); break;
+                        getContent().push(<div className="h-5"/>); break;
+                    case "info":
+                        getContent().push(<InfoBox>{applyFormation(content[1], "#047842")}</InfoBox>); break;
+                    case "warning":
+                        getContent().push(<InfoBox>{applyFormation(content[1], "#047842")}</InfoBox>); break;
+                    case "error":
+                        getContent().push(<InfoBox>{applyFormation(content[1], "#047842")}</InfoBox>); break;
+                    case "code":
+                        let props1 = {};
+                        // check for params
+                        if(matcher[2] !== "") {
+                            const regex = /(\w*)="([^"]*)"/gm;
+                            let mat;
+                            while((mat = regex.exec(matcher[2])) !== null) {
+                                switch (mat[1]) {
+                                    case "language": props1.language = mat[2]; break;
+                                    case "line_numbers": props1.lineNumbers = mat[2]; break;
+                                    case "title": props1.title = mat[2]; break;
+                                }
+                            }
+                        }
+                        if(underElement.has(under)) under++;
+                        underElement.set(under, {content: [], element: "code", props: props1});
+                        break;
+                    case "/code":
+                        if(getName() !== "code") return (<CodeFailed reason="Code Failed at an code element"/>);
+                        getContent(1).push(<CodeBlock language="javascript">{removeIndents(getContent()).toString().replaceAll(",", "\n")}</CodeBlock>);
+                        underElement.delete(under);
+                        under = under === 0 ? 0 : under-1;
+                        break;
+                    case "expandable":
+                        let props = {};
+                        props.title =`No Title add title="Title" as a parameter`;
+                        // check for params
+                        if(matcher[2] !== "") {
+                            const regex = /(\w*)="([^"]*)"/gm;
+                            let mat;
+                            while((mat = regex.exec(matcher[2])) !== null) {
+                                switch (mat[1]) {
+                                    case "title": props.title = mat[2]; break;
+                                }
+                            }
+                        }
+                        if(underElement.has(under)) under++;
+                        underElement.set(under, {content: [], element: "expandable", props: props});
+                        break;
+                    case "/expandable":
+                        if(getName() !== "expandable") return (<CodeFailed reason="Code Failed at an exapandable"/>);
+                        getContent(1).push(<Expandable title="PROPS DISABLED">{getContent()}</Expandable>);
+                        underElement.delete(under);
+                        under = under === 0 ? 0 : under-1;
+                        break;
                     default:
-                        html.push(<p className="text-white">{applyFormation(matcher[2])}</p>);
+                        getContent().push(<p className="text-white">{applyFormation(content[1])}</p>);
                 }
             }
         }
     }
-    return <div style={proprieties}>
+    return <div style={{fontSize: `${mainFontSize}px`}}>
         {html}
     </div>;
 }
 
-function applyFormation(line) {
+// FORMATING TUTORIALS
+
+function applyFormation(line, defaultColor) {
     if(line === undefined) return line;
     let string = line;
     let html = [];
     let matcher = null;
-    let color = "white";
+    let color = defaultColor ? defaultColor : mainTextColor;
     while(true) {
         matcher = string.match(/([^{]*){([^}]*)}(.*)/);
         if (!matcher) { html.push(<span style={{color: getColor(color)}}>{parseIndents(string, color)}</span>); break; }
         html.push(<span style={{color: getColor(color)}}>{parseIndents(matcher[1], color)}</span>)
-        color = matcher[2];
+        color = matcher[2].includes("reset") ? defaultColor ? defaultColor : mainTextColor : matcher[2];
         string = matcher[3];
     }
     return html;
@@ -115,14 +204,11 @@ function parseIndents(text, color) {
     const regex = /([^\*\|`)]*)(\*\*|\*|\||`)([^\*\|`]*)\2(.*)/;
     while(true) {
         matcher = next.match(regex);
-        console.log(next);
-        console.log(matcher);
-        if (!matcher) { html.push(<span>{next}</span>); break; }
-        html.push(<span>{matcher[1]}</span>)
-        console.log(matcher[2]);
+        if (!matcher) { html.push(parseOtherStuff(next, color)); break; }
+        html.push(parseOtherStuff(matcher[1], color))
         switch (matcher[2]) {
             case "none":
-                html.push(<span>{matcher[1]}</span>);
+                html.push(<span>{parseOtherStuff(matcher[1], color)}</span>);
                 break
             case "**":
                 html.push(<span className="font-extrabold">{matcher[3]}</span>);
@@ -131,7 +217,7 @@ function parseIndents(text, color) {
                 html.push(<span className="italic pr-0.5">{matcher[3]}</span>);
                 break
             case "`":
-                html.push(<span className="p-1 bg-neutral-700/60 rounded text-red-500/90">{matcher[3]}</span>);
+                html.push(<span className="p-1 px-2 bg-neutral-700/90 rounded font-normal font-mono text-red-500/90">{matcher[3]}</span>);
                 break
             case "|":
                 html.push(<span className="p-0.5 rounded drop-shadow-lg text-white backdrop-blur-xl font-semibold" style={{backgroundColor: getColor(color, 0.3), color: getColor(color, 0.9)}}>{matcher[3]}</span>);
@@ -140,6 +226,39 @@ function parseIndents(text, color) {
         next = matcher[4];
     }
     return html;
+}
+
+function parseOtherStuff(text, color) {
+    if(text === undefined) return text;
+    let html = [];
+    let next = text;
+    let matcher = null;
+    const regex = /([^\[]*)\[url (?:href|link)="([^\"]*)"\]([^\[]*)\[\/url\](.*)/;
+    while(true) {
+        matcher = next.match(regex);
+        if (!matcher) {
+            html.push(<span>{next}</span>);
+            break;
+        }
+        html.push(<span>{matcher[1]}</span>);
+        html.push(<a href={matcher[2]} className="underline underline-offset-2 font-semibold" style={{color: color.includes("white") ? "rgb(50 97 199 / 1)" : color}}>{matcher[3]}</a>);
+        next = matcher[4];
+    }
+    return html;
+}
+
+function removeIndents(lines) {
+    const minIndent = lines.reduce((min, line) => {
+        const match = line.match(/^[ \t]+/);
+        if (match) return Math.min(min, match[0].length);
+        return min;
+    }, Infinity);
+
+    if (minIndent === Infinity) return lines;
+
+    const trimmedLines = lines.map(line => line.replace(new RegExp(`^[ \t]{0,${minIndent}}`), ''));
+
+    return trimmedLines.join('\n');
 }
 
 export default DuckyMagic;
