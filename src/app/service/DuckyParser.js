@@ -64,6 +64,11 @@ const DuckyMagic = async ({file}) => {
         if(underElement.has(under)) { return underElement.get(under).element; }
         return null;
     }
+    function getOther (other, substract) {
+        if(underElement.has(substract ? under-substract : under)) { return underElement.get(substract ? under-substract : under)[other]; }
+        return null;
+    }
+
     const rl = readline.createInterface({ input: filestream, crlfDelay: Infinity });
     let proprieties = {}
     let lines = '';
@@ -123,7 +128,7 @@ const DuckyMagic = async ({file}) => {
                     case "error":
                         getContent().push(<InfoBox>{applyFormation(content[1], "#047842")}</InfoBox>); break;
                     case "code":
-                        let props1 = {};
+                        let props1 = {language: "javascript", lineNumbers: true, title: null};
                         // check for params
                         if(matcher[2] !== "") {
                             const regex = /(\w*)="([^"]*)"/gm;
@@ -141,13 +146,12 @@ const DuckyMagic = async ({file}) => {
                         break;
                     case "/code":
                         if(getName() !== "code") return (<CodeFailed reason="Code Failed at an code element"/>);
-                        getContent(1).push(<CodeBlock language="javascript">{removeIndents(getContent()).toString().replaceAll(",", "\n")}</CodeBlock>);
+                        getContent(1).push(<CodeBlock title={getProps().title} lineNumbers={getProps().lineNumbers} language={getProps().language}>{removeIndents(getContent()).toString().replaceAll(",", "\n")}</CodeBlock>);
                         underElement.delete(under);
                         under = under === 0 ? 0 : under-1;
                         break;
                     case "expandable":
-                        let props = {};
-                        props.title =`No Title add title="Title" as a parameter`;
+                        let props = {title:`No Title add title="Title" as a parameter`};
                         // check for params
                         if(matcher[2] !== "") {
                             const regex = /(\w*)="([^"]*)"/gm;
@@ -163,7 +167,37 @@ const DuckyMagic = async ({file}) => {
                         break;
                     case "/expandable":
                         if(getName() !== "expandable") return (<CodeFailed reason="Code Failed at an exapandable"/>);
-                        getContent(1).push(<Expandable title="PROPS DISABLED">{getContent()}</Expandable>);
+                        getContent(1).push(<Expandable title={getProps().title}>{getContent()}</Expandable>);
+                        underElement.delete(under);
+                        under = under === 0 ? 0 : under-1;
+                        break;
+                    case "table":
+                        if(underElement.has(under)) under++;
+                        underElement.set(under, {content: [], element: "table"});
+                        break;
+                    case "/table":
+                        if(getName() !== "table") return (<CodeFailed reason="Code Failed at an Table"/>);
+                        getContent(1).push(
+                            <div className="flex flex-col">
+                                <table className="w-full">
+                                    <tbody className="">{getContent()}</tbody>
+                                </table>
+                            </div>
+                        );
+                        underElement.delete(under);
+                        under = under === 0 ? 0 : under-1;
+                        break;
+                    case "table_row":
+                        if(underElement.has(under)) under++;
+                        underElement.set(under, {content: [], element: "table_row"});
+                        break;
+                    case "/table_row":
+                        if(getName() !== "table_row") return (<CodeFailed reason="Code Failed at a TableRow"/>);
+                        getContent(1).push(<tr className="border-t border-t-gray-600/60">{
+                            getContent().map((item, index) => (
+                                <td className="border-r border-r-gray-600/60 p-2" key={index}>{item}</td>
+                            ))
+                        }</tr>);
                         underElement.delete(under);
                         under = under === 0 ? 0 : under-1;
                         break;
