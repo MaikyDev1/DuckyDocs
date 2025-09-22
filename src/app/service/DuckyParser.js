@@ -25,8 +25,8 @@ function getColor(color, alpha) {
     }
 }
 
-const mainTextColor = "#000"
-const mainFontSize = "18"
+const mainTextColor = "#fff"
+const mainFontSize = "16"
 
 function hexToRGB(h, a) {
     let r = 0, g = 0, b = 0;
@@ -47,7 +47,7 @@ function hexToRGB(h, a) {
 }
 
 const DuckyMagic = async ({file}) => {
-    const filestream = await fs.createReadStream(process.cwd() + `/ducky/${file}`);
+    const filestream = await fs.createReadStream(`${process.cwd()}/ducky/${file}`);
 
     let html = [];
     let under = 0;
