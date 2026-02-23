@@ -1,0 +1,94 @@
+[
+  {
+    "type": "p",
+    "content": "Welcome to a example page from {blue}|DuckyDocs|"
+  },
+  {
+    "type": "break"
+  },
+  {
+    "type": "p",
+    "content": "This is an open source project made by |MaikyDev| to create nice and easy {red}**documentations**{white}, {purple}**showcases** {reset}and {rose}**much more**"
+  },
+  {
+    "type": "divider",
+    "space": 20
+  },
+  {
+    "type": "table",
+    "content": {
+      "header": [
+        {
+          "content": "Name"
+        },
+        {
+          "content": "Aaaaaa"
+        }
+      ],
+      "rows": [
+        {
+          "type": "p",
+          "content": "Test"
+        },
+        {
+          "type": "p",
+          "content": "Test"
+        }
+      ]
+    }
+  },
+  {
+    "type": "expand",
+    "title": "Hello, click me",
+    "content": [
+      {
+        "type": "p",
+        "content": "Welcome to a example page from {blue}|DuckyDocs|"
+      },
+      {
+        "type": "break"
+      },
+      {
+        "type": "p",
+        "content": "This is an open source project made by |MaikyDev| to create nice and easy {red}**documentations**{white}, {purple}**showcases** {reset}and {rose}**much more**"
+      }
+    ]
+  },
+  {
+    "type": "divider",
+    "space": 20
+  },
+  {
+    "type": "test",
+    "questions": [
+      {
+        "correct": "true",
+        "type": "p",
+        "content": "This is an open sourawawa"
+      },
+      {
+        "type": "p",
+        "content": "BRUHHHH"
+      },
+      {
+        "type": "p",
+        "content": "the correct one"
+      }
+    ]
+  },
+  {
+    "type": "code",
+    "lines": true,
+    "title": "How to use a FlarePlugin",
+    "language": "java",
+    "code": "import net.maiky.flare.*;\n\n@FlarePlugin\npublic void main(JavaPlugin plugin) {\n    plugin.start(\"now\");\n}"
+  },
+  {
+    "type": "api",
+    "method": "GET",
+    "url": "/api/v1/test",
+    "params": [
+      "card-id"
+    ]
+  }
+]

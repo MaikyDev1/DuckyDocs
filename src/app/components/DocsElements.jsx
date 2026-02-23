@@ -37,12 +37,12 @@ export function WarningBox ({ children }) {
 export function Expandable ({ children, title }) {
     const [open, setOpen] = useState(false);
     return (
-        <div className="bg-gray-100/50 my-2 border backdrop-blur-2xl rounded-lg p-3 border-gray-400/30">
-            <div className="text-neutral-800/80 font-semibold cursor-pointer flex items-center select-none" onClick={() => setOpen(!open)}>
+        <div className="my-2 border rounded-lg p-3 bg-stone-200">
+            <div className="text-stone-800 font-semibold cursor-pointer flex items-center select-none" onClick={() => setOpen(!open)}>
                 <ExpandableArrow className={`h-5 transition-all duration-500 ${!open ? 'rotate-90' : 'rotate-180'}`}/>
                 {title}
             </div>
-            <div className={`overflow-hidden transition-max-height duration-500 ease-in-out px-5 ${open ? 'max-h-[1000px]' : 'max-h-0'}`}>
+            <div className={`overflow-hidden text-stone-800 transition-max-height duration-500 ease-in-out px-5 ${open ? 'max-h-[1000px]' : 'max-h-0'}`}>
                 <div className="py-2">
                     {children}
                 </div>

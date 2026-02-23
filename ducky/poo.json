@@ -1,0 +1,193 @@
+[
+  {
+    "type": "title",
+    "content": "Ceva informatii pentru examenul de {orange}|java|"
+  },
+  {
+    "type": "break"
+  },
+  {
+    "type": "p",
+    "content": "Relatia de tip has-a [Un obiect are alt obiect]: **agregarea** si **compunerea**"
+  },
+  {
+    "type": "break"
+  },
+  {
+    "type": "title",
+    "content": "Cum se initializeaza obiectele!"
+  },
+  {
+    "type": "p",
+    "content": "1. Eager initialization (În momentul declarării câmpului)"
+  },
+  {
+    "type": "code",
+    "code": "class Car {\n   private Engine engine = new Engine();\n \n   ...\n}"
+  },
+  {
+    "type": "p",
+    "content": "1. Lazy initialization (Doar cand este necesar)"
+  },
+  {
+    "type": "code",
+    "code": "class Car {\n   private Engine engine;\n \n   public Engine initializeEngine() {\n      if (engine == null) {\n         engine = new Engine();\n      }\n \n      return engine;\n   }\n}"
+  },
+  {
+    "type": "break"
+  },
+  {
+    "type": "title-1",
+    "content": "Agregarea (Relatie slaba intre obiecte)"
+  },
+  {
+    "type": "p",
+    "content": "Agregarea este cand un obiect primeste alte obiecte din exterior. Se mai numeste Weak Has-A relationship!"
+  },
+  {
+    "type": "code",
+    "code": "public class Department {\n    private String name;\n    private Employee[] employees;\n \n    public Department(String name, Employee[] employees) {\n        this.name = name;\n        this.employees = employees; // dependența vine din exterior → agregare\n    }\n}"
+  },
+  {
+    "type": "title-1",
+    "content": "Compunerea (Relatie puternica intre obiecte)"
+  },
+  {
+    "type": "p",
+    "content": "Compunerea este cand un obiect va creea alte obiecte din interior. Se mai numeste Strong Has-A relationship!"
+  },
+  {
+    "type": "code",
+    "code": "public class House {\n    private Room[] rooms;\n \n    public House(int numberOfRooms) {\n        rooms = new Room[numberOfRooms]; // obiectele sunt create în interior → compunere\n        for (int i = 0; i < numberOfRooms; i++) {\n            rooms[i] = new Room(\"Camera \" + (i + 1));\n        }\n    }\n}\n"
+  },
+  {
+    "type": "divider",
+    "space": 20
+  },
+  {
+    "type": "title-1",
+    "content": "Interfete, Lambda, Clase anonime"
+  },
+  {
+    "type": "p",
+    "content": "Interfete functionale in JDK"
+  },
+  {
+    "type": "table",
+    "content": {
+      "header": [
+        {
+          "content": "Interfață"
+        },
+        {
+          "content": "Metodă abstractă"
+        },
+        {
+          "content": "Primește"
+        },
+        {
+          "content": "Returnează"
+        },
+        {
+          "content": "Testează o condiție"
+        }
+      ],
+      "rows": [
+        {
+          "type": "p",
+          "content": "|Predicate<T>|"
+        },
+        {
+          "type": "p",
+          "content": "|boolean test(T t)|"
+        },
+        {
+          "type": "p",
+          "content": "T"
+        },
+        {
+          "type": "p",
+          "content": "boolean"
+        },
+        {
+          "type": "p",
+          "content": "Testează o condiție"
+        }
+
+        ,
+
+        {
+          "type": "p",
+          "content": "|Function<T, R>|"
+        },
+        {
+          "type": "p",
+          "content": "|R apply(T t)|"
+        },
+        {
+          "type": "p",
+          "content": "T"
+        },
+        {
+          "type": "p",
+          "content": "R"
+        },
+        {
+          "type": "p",
+          "content": "Transformă un tip în altul"
+        }
+
+      ,
+
+        {
+          "type": "p",
+          "content": "|Consumer<T>|"
+        },
+        {
+          "type": "p",
+          "content": "|void accept(T t)|"
+        },
+        {
+          "type": "p",
+          "content": "T"
+        },
+        {
+          "type": "p",
+          "content": "void"
+        },
+        {
+          "type": "p",
+          "content": "Consuma un obiect"
+        }
+
+      ,
+
+        {
+          "type": "p",
+          "content": "|Supplier<T>|"
+        },
+        {
+          "type": "p",
+          "content": "|T get()|"
+        },
+        {
+          "type": "p",
+          "content": "nimic"
+        },
+        {
+          "type": "p",
+          "content": "T"
+        },
+        {
+          "type": "p",
+          "content": "Da ceva valoare"
+        }
+      ]
+    }
+  },
+  {
+    "type": "title-1",
+    "content": "Design Patterns"
+  }
+
+]
