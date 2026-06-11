@@ -3,7 +3,7 @@ import {EditableText} from "@/app/duckyengine/DuckyTextEditor";
 
 export function Paragraph({id, text}) {
   return (
-    <p key={id} className="">
+    <p key={id} className="text-base leading-7">
       {text}
     </p>
   )

@@ -1,6 +1,7 @@
-import registry from "./primitives/Registry"
+import registry from "./Registry"
 
 export function Renderer(props) {
+  if (registry[props.element] === undefined) return null;
   const Component = registry[props.element].element
 
   if (!Component) return null
@@ -20,7 +21,6 @@ export function EditorRenderer(props) {
 export function getDefaults(name) {
 
   if (registry[name] === undefined) return null;
-  alert(JSON.stringify(registry))
 
   const defaultConfig = registry[name].default_config
 

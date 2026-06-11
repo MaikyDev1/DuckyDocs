@@ -6,9 +6,9 @@ import {SelectItem, SelectTypeBox} from "@/app/FlareUI/Basic/InteractiveFields";
 
 function sizeToTailwindSize(size) {
   switch (size) {
-    case "h1": return "text-5xl"
-    case "h2": return "text-4xl"
-    case "h3": return "text-3xl"
+    case "h1": return "text-4xl"
+    case "h2": return "text-3xl"
+    case "h3": return "text-2xl"
   }
 }
 

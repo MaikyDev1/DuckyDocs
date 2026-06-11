@@ -1,48 +1,46 @@
-import {CodeIcon, DeleteIcon, DropDownArrowIcon, EditIcon} from "@/app/icons";
+import {CodeIcon, DeleteIcon, DropDownArrowIcon} from "@/app/icons";
 import {EditableText} from "@/app/duckyengine/DuckyTextEditor";
-import {useContext, useState} from "react";
+import {useContext, useMemo, useState} from "react";
 import {EditorRenderer, Renderer} from "@/app/duckyengine/Renderer";
 import {GrayButton} from "@/app/FlareUI/Basic/Buttons";
 import {NewElementPopup} from "@/app/dashboard/EditorHelper";
 import {PreviewContext} from "@/app/dashboard/page";
-import {Icon} from "@iconify-icon/react";
 
-function Helper({id, title, icon, children}) {
-  const [inView, setInView] = useState(false);
+function Helper({id, titles, columns, current, setCurrent, children}) {
   return (
-    <div key={id} className={`${inView ? "bg-stone-300/5" : ""} ring-stone-400 ring-1 rounded-xl my-1 px-6 w-full p-5`}>
-      <div onClick={() => setInView(!inView)} className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          {icon ? <Icon className="text-2xl" icon={icon}/> : null}
-          <div className="text-lg font-semibold select-none">{title}</div>
-        </div>
-        <DropDownArrowIcon className={`text-4xl ${!inView ? "-rotate-90" : "rotate-0"} transition-transform`}/>
+    <div key={id} className={`border border-stone-400 rounded-xl w-full`}>
+      <div className="bg-orange-fade flex pt-2 px-3 rounded-t-xl cursor-pointer select-none gap-2 items-center text-md font-semibold">
+        {Object.entries(titles).map(([id, title]) =>
+          (<div key={id} onClick={() => setCurrent(id)} className={`${current.toString() === id ? "bg-white text-orange-500" : "hover:bg-white/40"} px-4 py-2 transition rounded-t-lg`}>
+            {title}
+          </div>)
+        )}
       </div>
-      <div className={`${!inView ? "hidden" : "mt-2 "} transition-transform`}>
+      <div className={`transition p-4`}>
         {children}
       </div>
     </div>
   )
 }
 
-export function Expand({id, title, icon}) {
+export function Table({id, columns, titles}) {
   const data = useContext(PreviewContext);
-  if (data === undefined)
-    return (
-      <Helper id={id} title={title}>
-        <p>
-          No elements forwarded
-        </p>
-      </Helper>
-    )
+  let html = {};
+  if (!data) return null;
+  for (let i = 1; i <= columns; i++) {
+    html[i] = (data[id] ?? [])
+      .filter(e => e.place === i)
+      .sort((a, b) => a.order - b.order)
+      .map(e => <Renderer key={e.id} {...e} />);
+  }
   return (
-    <Helper id={id} icon={icon} title={title}>
-      {data[id] && data[id].map(e => <Renderer key={e.id} {...e}/>)}
+    <Helper id={id} tabs={tabs} columns={columns} titles={titles}>
+      {html}
     </Helper>
   )
 }
 
-export function InEditor({id, content, functions}) {
+export function InEditor({id, title, content, functions}) {
   const [newElement, setNewElement] = useState(false);
   return (
     <div>
@@ -63,8 +61,8 @@ export function InEditor({id, content, functions}) {
 }
 
 const paragraphModule = {
-  element: Expand,
-  element_name: ["expand"],
+  element: Table,
+  element_name: ["table"],
   in_editor: InEditor
 }
 

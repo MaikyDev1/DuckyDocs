@@ -34,12 +34,12 @@ export function EditableText({id, updateFunction, text}) {
 
   return (
     <div className="group">
-      <p id={id} className="peer outline-none text-white"
+      <p id={id} className="peer outline-none min-w-10 text-white"
          ref={editorRef}
          suppressContentEditableWarning
          contentEditable>
       </p>
-      <div className="p-2 absolute z-110 flex text-sm gap-1 bg-stone-700 opacity-0 rounded-lg shadow-lg invisible group-focus-within:opacity-100 group-focus-within:visible">
+      <div className="p-2 absolute z-110 flex text-sm gap-1 text-white bg-stone-700 opacity-0 rounded-lg shadow-lg invisible group-focus-within:opacity-100 group-focus-within:visible">
         <SimpleButton icon={<BoldIcon className="text-2xl"/>} onClick={(e) => run('bold')}/>
         <SimpleButton icon={<ItalicIcon className="text-2xl"/>} onClick={() => run('italic')}/>
         <SimpleButton icon={<UnderlineIcon className="text-2xl"/>} onClick={() => run('underline')}/>

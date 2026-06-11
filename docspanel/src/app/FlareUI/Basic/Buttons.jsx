@@ -16,10 +16,19 @@ export function GrayButton({title, icon, onClick}) {
   )
 }
 
-export function StoneButton({title, icon, onClick}) {
+export function StoneButton({title, type, icon, onClick}) {
   return (
-    <button onClick={onClick} type="button" className="cursor-pointer w-full shadow hover:scale-[1.01] py-2 flex items-center justify-center bg-stone-600 rounded-2xl">
-      <p className="text-stone-400">{title}</p>
+    <button onClick={onClick} type={!type ? "button" : type} className="cursor-pointer px-5 shadow hover:scale-[1.01] py-2 flex items-center justify-center bg-stone-600 rounded-lg">
+      <p className="text-stone-200">{title}</p>
+      {icon}
+    </button>
+  )
+}
+
+export function WhiteButton({title, icon, onClick}) {
+  return (
+    <button onClick={onClick} type="button" className="cursor-pointer px-5 shadow hover:scale-[1.01] py-2 flex items-center justify-center bg-stone-200 rounded-2xl">
+      <p className="text-stone-900 font-semibold">{title}</p>
       {icon}
     </button>
   )

@@ -19,9 +19,16 @@ export function NewElementPopup({addNewElement, parentID, closeFunction}) {
         {name: "Paragraph", default: {element: "p", text: "Click to edit"}},
         {name: "Title", default: {element: "title", size: "h1", text: "Click to edit"}},
         {name: "Divider", default: {element: "divider"}},
-        {name: "Code", default: {element: "code", text: "public void main"}},
+        {name: "Code", default: {element: "code", text: "Your code"}},
+        {name: "Tooltip", default: {element: "tooltip", type: "error" , text: "Click to edit"}},
         {name: "Expandable", default: {element: "expand", title: "Click to edit", content: []}},
-      ]}
+        {name: "Tabs", default: {element: "Tabs", columns: 2, content: []}},
+      ]
+    },
+    {name: "Advanced Blocks", elements: [
+        {name: "API", default: {element: "api", method: "GET", endpoint: "/setup", response: ["200"]}},
+      ]
+    }
   ]
   return (
     <BasePopup closeFunction={closeFunction}>
