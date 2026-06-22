@@ -25,8 +25,29 @@ export default function Page() {
           <p className="">Example Project</p>
         </div>
       </NavBar>
-      <section className="rounded-2xl bg-white grow overflow-auto">
-        <ProjectPreview page={data}/>
+      <section className="rounded-2xl relative h-full bg-white grow">
+        <div className="overflow-auto select-none h-full p-10">
+          <ProjectPreview page={data}/>
+        </div>
+        <div className="absolute h-full w-full top-0 left-0 rounded-2xl bg-black/20 backdrop-blur-[2px] flex items-center justify-center">
+          <div className="p-10 bg-white rounded-2xl select-none text-stone-800 flex flex-col items-center justify-center">
+            <p className="font-bold text-lg">Actions on [Project]</p>
+            <div className="flex flex-col text-center gap-2 mt-10">
+              <div className="bg-orange-fade cursor-pointer px-5 py-3 rounded-xl border-b-4 border-black/10">
+                Edit project
+              </div>
+              <div className="bg-orange-fade cursor-pointer px-5 py-3 rounded-xl border-b-4 border-black/10">
+                Delete project
+              </div>
+              <div className="bg-orange-fade cursor-pointer px-5 py-3 rounded-xl border-b-4 border-black/10">
+                Change settings
+              </div>
+              <div className="bg-orange-fade cursor-pointer px-5 py-3 rounded-xl border-b-4 border-black/10">
+                See statistics
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
     </main>
   )

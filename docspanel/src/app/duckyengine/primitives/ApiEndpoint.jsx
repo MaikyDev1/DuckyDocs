@@ -46,7 +46,7 @@ function MethodTag({method}) {
   switch (method.toString().toUpperCase()) {
     case "GET":
       return (
-        <div className="px-4 py-0.5 rounded-lg font-semibold font-mono text-black/70 bg-green-300">
+        <div className="px-4 py-0.5 select-none rounded-lg font-semibold font-mono text-black/70 bg-green-300">
           GET
         </div>
       )
@@ -60,7 +60,7 @@ export function ApiEndpoint({id, title, endpoint}) {
       <p className="font-bold text-lg">{title}</p>
       <p className="font-normal">{endpoint.description}</p>
       <p className="font-semibold">Endpoint</p>
-      <div className="flex gap-4 items-center">
+      <div className="flex gap-4 bg-orange-fade rounded-lg p-2 items-center">
         <MethodTag method={endpoint.method}/>
         <p className="font-bold">{endpoint.endpoint}</p>
       </div>

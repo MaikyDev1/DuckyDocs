@@ -1,7 +1,6 @@
-import {BlackButton, GrayButton, StoneButton} from "@/app/FlareUI/Basic/Buttons";
+import {BlackButton, GrayButton, StoneButton, WhiteButton} from "@/app/FlareUI/Basic/Buttons";
 import {useState} from "react";
-import {InputTypeBox} from "@/app/FlareUI/Basic/InteractiveFields";
-
+import {FadeOrangeButton} from "../FlareUI/Basic/Buttons";
 function BasePopup({children, closeFunction}) {
   return (
     <div onClick={closeFunction} className="bg-white/10 backdrop-blur-[2px] z-100 fixed top-0 left-0 flex justify-center items-center w-screen h-screen">
@@ -12,17 +11,17 @@ function BasePopup({children, closeFunction}) {
   )
 }
 
-export function NewElementPopup({addNewElement, parentID, closeFunction}) {
+export function NewElementPopup({newElement, parent, order, closeFunction}) {
   const [search, setSearch] = useState("");
   const options = [
     {name: "Basic Blocks", elements: [
         {name: "Paragraph", default: {element: "p", text: "Click to edit"}},
         {name: "Title", default: {element: "title", size: "h1", text: "Click to edit"}},
         {name: "Divider", default: {element: "divider"}},
-        {name: "Code", default: {element: "code", text: "Your code"}},
+        {name: "Code", default: {element: "code"}},
         {name: "Tooltip", default: {element: "tooltip", type: "error" , text: "Click to edit"}},
-        {name: "Expandable", default: {element: "expand", title: "Click to edit", content: []}},
-        {name: "Tabs", default: {element: "Tabs", columns: 2, content: []}},
+        {name: "Expandable", default: {element: "expand", title: "Click to edit"}},
+        {name: "Tabs", default: {element: "Tabs", tabs: 2}},
       ]
     },
     {name: "Advanced Blocks", elements: [
@@ -33,15 +32,15 @@ export function NewElementPopup({addNewElement, parentID, closeFunction}) {
   return (
     <BasePopup closeFunction={closeFunction}>
       <div className="h-90 my-2 py-2 px-4 flex flex-col gap-2 rounded-2xl overflow-y-scroll ">
-        <input type="text" onChange={(e) => setSearch(e.target.value)} placeholder="Search" className="appearance-none outline-none bg-stone-700 p-1 px-2 rounded-lg"/>
+        <input type="text" onChange={(e) => setSearch(e.target.value)} placeholder="Search" className="appearance-none outline-none bg-white p-1 px-2 rounded-lg"/>
         {/* BASIC ELEMENTS */}
         {options.map(block => (
           <div className="flex flex-col gap-1" key={block.name}>
             <p className="text-sm border-b border-b-stone-600 text-center">{block.name}</p>
             {block.elements.map (el =>
               (search !== "" && !el.name.toLowerCase().includes(search.toLowerCase())) ?
-                null : <GrayButton key={el.name} title={el.name} onClick={() => {
-                  addNewElement(parentID, el.default);
+                null : <FadeOrangeButton key={el.name} title={el.name} onClick={() => {
+                  newElement?.({parent: parent, order: order, element: el.default});
                   closeFunction();
                 }}/>
             )}

@@ -23,7 +23,7 @@ const page_json = {
     {element: "title", size: "h2", text: "Welcome to the power of ducks", id: 1},
     {element: "divider", id: 2},
     {element: "expand", id: 4, title: "test", content: [{element: "p", size: "h2", text: "Welcome to the power of ducks", id: 5}, {element: "p", size: "h2", text: "Welcome to the power of ducks", id: 6}, {element: "p", size: "h2", text: "Welcome to the power of ducks", id: 7}]},
-    {element: "p", id: 3, text: "In here you can add elements, change them, or preview them outside of the editor. Preview can be your url or you can use our urls for free!"},
+    {element: "p", id: 3, text: "In here you can add elements, change them, or preview them outside of the utils. Preview can be your url or you can use our urls for free!"},
   ]
 }
 

@@ -1,11 +1,12 @@
-import {CodeIcon, DeleteIcon, DropDownArrowIcon, EditIcon} from "@/app/icons";
+import {CodeIcon, DeleteIcon, DropDownArrowIcon, EditIcon, MoreActionsIcon} from "@/app/icons";
 import {EditableText} from "@/app/duckyengine/DuckyTextEditor";
 import {useContext, useState} from "react";
 import {EditorRenderer, Renderer} from "@/app/duckyengine/Renderer";
 import {GrayButton} from "@/app/FlareUI/Basic/Buttons";
-import {NewElementPopup} from "@/app/dashboard/EditorHelper";
 import {PreviewContext} from "@/app/dashboard/page";
 import {Icon} from "@iconify-icon/react";
+import {PageContext} from "@/app/context/PageContext";
+import {PlusIcon} from "@/app/FlareUI/FlareIcons";
 
 function Helper({id, title, icon, children}) {
   const [inView, setInView] = useState(false);
@@ -37,28 +38,26 @@ export function Expand({id, title, icon}) {
     )
   return (
     <Helper id={id} icon={icon} title={title}>
-      {data[id] && data[id].map(e => <Renderer key={e.id} {...e}/>)}
+      {data[id] && data[id].sort((a, b) => a.order - b.order).map(e => <Renderer key={e.id} {...e}/>)}
     </Helper>
   )
 }
 
-export function InEditor({id, content, functions}) {
-  const [newElement, setNewElement] = useState(false);
+export function InEditor({id, title}) {
+  const operations = useContext(PageContext);
   return (
-    <div>
-      {newElement ? <NewElementPopup addNewElement={functions.addNewElement} parentID={id} closeFunction={() => setNewElement(false)}/> : null}
-      <div className="flex gap-2 relative">
-        <div className="absolute cursor-pointer flex items-center h-full justify-center text-lg -translate-x-12">
-          <DeleteIcon className="" onClick={() => functions.removeElement(id)}/>
+    <div className="flex gap-2">
+        <div className="absolute flex gap-1 cursor-pointer transition group-focus-within:opacity-100 group-hover:opacity-100 hover:opacity-100 text-lg z-10 opacity-0 -translate-x-15 w-20">
+          <PlusIcon className="text-xl" onClick={() => operations.askAndInsert({addUnder: id})}/>
+          <MoreActionsIcon className="text-xl" onClick={() => operations.delete(id)}/>
         </div>
-        <Helper id={id} title={<div onClick={(e) => e.stopPropagation()}><EditableText id={id} text={title} updateFunction={functions.updateElement}/></div>}>
-          {content.map(e => <EditorRenderer key={e.id} {...e} functions={functions}/>)}
+        <Helper id={id} title={<div onClick={(e) => e.stopPropagation()}><EditableText id={id} text={title}/></div>}>
+          {operations.page[id] && operations.page[id].sort((a, b) => a.order - b.order).map(e => <EditorRenderer key={e.id} {...e}/>)}
           <div className="mt-2">
             <GrayButton title="+ Add new element" onClick={() => setNewElement(true)}/>
           </div>
         </Helper>
       </div>
-    </div>
   )
 }
 

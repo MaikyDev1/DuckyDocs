@@ -1,14 +1,28 @@
-import {DeleteIcon, EditIcon} from "@/app/icons";
+import {
+  DeleteIcon,
+  DuplicateIcon,
+  EditIcon,
+  FontSizeIcon,
+  MoreActionsIcon,
+  SizeL,
+  SizeM,
+  SizeS,
+  SizeXl
+} from "@/app/icons";
 import {EditableText} from "@/app/duckyengine/DuckyTextEditor";
-import {useState} from "react";
+import {useContext, useState} from "react";
 import {EditElementPopup} from "@/app/dashboard/EditorHelper";
 import {SelectItem, SelectTypeBox} from "@/app/FlareUI/Basic/InteractiveFields";
+import {PageContext} from "@/app/context/PageContext";
+import {PlusIcon} from "@/app/FlareUI/FlareIcons";
+import {HoverFunctionBox, SimpleButton, SimpleHoverableButton} from "@/app/utils/EditorPopups";
 
 function sizeToTailwindSize(size) {
   switch (size) {
     case "h1": return "text-4xl"
     case "h2": return "text-3xl"
     case "h3": return "text-2xl"
+    case "h4": return "text-xl"
   }
 }
 
@@ -21,28 +35,41 @@ export function Title({id, text, size}) {
 }
 
 export function InEditor({id, text, size, functions}) {
-  const [edit, setEdit] = useState(false);
+  const operations = useContext(PageContext);
+  const [moreActions, setMoreActions] = useState(null);
   return (
-    <div>
-      {edit ? <TitleEditModal functions={functions} id={id} size={size} closeFunction={() => setEdit(false)}/> : null}
-      <div className="flex relative gap-2">
-        <div className="absolute cursor-pointer flex items-center h-full justify-center text-lg -translate-x-12">
-          <DeleteIcon className="" onClick={() => functions.removeElement(id)}/>
-          <EditIcon className="" onClick={() => setEdit(true)}/>
-        </div>
-        <div className={`${sizeToTailwindSize(size)} font-bold`}>
-          <EditableText id={id} text={text} updateFunction={functions ? functions.updateElement : null}/>
-        </div>
+    <div className="group relative items-center flex gap-2">
+      <div className="z-10 flex gap-1 cursor-pointer absolute transition group-focus-within:opacity-100 group-hover:opacity-100 hover:opacity-100 opacity-0 text-lg -translate-x-15 w-20">
+        <PlusIcon className="text-xl" onClick={() => operations.askAndInsert({ addUnder: id })} />
+        <MoreActionsIcon onClick={(e) => setMoreActions({x: e.clientX, y: e.clientY})} className="text-xl" />
+      </div>
+      {moreActions && (
+        <HoverFunctionBox x={moreActions.x} y={moreActions.y} closeFunction={() => setMoreActions(null)}>
+          <SimpleHoverableButton title="Change Type" icon={<FontSizeIcon/>}>
+            {[1, 2, 3, 4].map((i) => (
+              <SimpleButton key={`H${i}`} title={`H${i}`} onClick={() => operations.partialUpdate({id: id, size: `h${i}`})}/>
+            ))}
+          </SimpleHoverableButton>
+          <div className="h-0.5 m-0.5 bg-white/10"/>
+          <SimpleButton title="Delete" icon={<DeleteIcon/>} onClick={() => operations.delete(id)}/>
+          <SimpleButton title="Duplicate" icon={<DuplicateIcon/>} onClick={() => {
+            setMoreActions(null);
+            operations.duplicate(id)
+          }}/>
+        </HoverFunctionBox>
+      )}
+      <div className={`${sizeToTailwindSize(size)}`}>
+        <EditableText id={id} text={text} updateFunction={functions ? functions.updateElement : null}/>
       </div>
     </div>
   )
 }
 
-function TitleEditModal({functions, closeFunction, id, size}) {
+function TitleEditPopup({updateFunction, closeFunction, id, size}) {
   return (
     <EditElementPopup closeFunction={closeFunction}>
       <p className="text-lg mb-1">Edit Title</p>
-      <SelectTypeBox onChange={(e) => functions.updateElement(id, {size: e.target.value})} title="Select size" defaultValue={size}>
+      <SelectTypeBox onChange={(e) => updateFunction(id, {size: e.target.value})} title="Select size" defaultValue={size}>
         <SelectItem text="H1" value="h1"/>
         <SelectItem text="H2" value="h2"/>
         <SelectItem text="H3" value="h3"/>
