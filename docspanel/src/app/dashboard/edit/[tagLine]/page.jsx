@@ -1,7 +1,7 @@
 'use client'
 
 
-import {NavBar, TopBar} from "../../DashboardUiSet";
+import {NavBar, TopBar} from "../../[page]/DashboardUiSet";
 import {useParams} from "next/navigation";
 import {EditorRenderer, Renderer} from "@/app/duckyengine/Renderer";
 import {HashtagIcon, PlusIcon} from "@/app/FlareUI/FlareIcons";
@@ -9,7 +9,7 @@ import {Icon} from "@iconify-icon/react";
 import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {PageContext} from "@/app/context/PageContext";
 import {GrayButton} from "@/app/FlareUI/Basic/Buttons";
-import {NewElementPopup} from "../../EditorHelper";
+import {NewElementPopup} from "../../[page]/EditorHelper";
 
 export default function Page() {
   const params = useParams()
@@ -53,6 +53,7 @@ const data = {
     {element: "p", id: "5", order: 4, parent: "root", text: "If you enjoy this platform,free without ads, consider supporting hosting or contributing to it."},
     {element: "title", id: "6", order: 5, parent: "root", text: "Lets see some cool elements", size: "h2"},
     {element: "expand", id: "7", order: 7, parent: "root", icon: "tabler:activity", title: "An expandable thing"},
+    {element: "code", id: "20", order: 10, parent: "root", code: "insert yoasdfasdfur code\nasdfasdf\n    asdfasdf\nasdfasdfasdf <div>test</div>"},
     {element: "tooltip", id: "17", order: 8, parent: "root", type: "error", text: "Be aware of this error!"}
   ],
   "7": [
@@ -70,6 +71,7 @@ function ProjectPreview({data}) {
 
   useEffect(() => {
     const handler = (e) => {
+
       if (e.ctrlKey && e.key === 'z') undo();
       if (e.ctrlKey && e.key === 'y') redo();
     };
@@ -87,7 +89,7 @@ function ProjectPreview({data}) {
           .map(element => <EditorRenderer key={element.id} {...element}/>)}
         <div className="flex gap-2">
           <GrayButton title="+ Add new element" onClick={() => operations.askAndInsert({})}/>
-          <GrayButton title="[^^] See page" onClick={() => operations.addNew({})}/>
+          <GrayButton title="[^^] See page" onClick={() => console.log(page)}/>
         </div>
       </div>
     </PageContext.Provider>

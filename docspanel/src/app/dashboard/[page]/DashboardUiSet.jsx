@@ -1,8 +1,8 @@
 import Image from "next/image";
-import {InputTypeBox, InputTypeBoxWhite} from "../FlareUI/Basic/InteractiveFields";
+import {InputTypeBox, InputTypeBoxWhite} from "../../FlareUI/Basic/InteractiveFields";
 import Link from "next/dist/client/link";
 import {Icon} from "@iconify-icon/react";
-import {BookIcon, CogIcon, DuckIcon, HomeNavigationIcon, HouseIconDuo} from "../FlareUI/FlareIcons";
+import {BookIcon, CogIcon, DuckIcon, HomeNavigationIcon, HouseIconDuo} from "../../FlareUI/FlareIcons";
 
 export function TopBar() {
   return (
@@ -15,7 +15,7 @@ export function TopBar() {
 
 export function NavBar({selected, children}) {
   return (
-    <nav className="flex w-1/4">
+    <nav className="flex w-1/6">
       <div className="bg-stone-900 rounded-2xl px-4 h-full flex flex-col items-center py-10">
           <DuckIcon className="text-5xl"/>
           <div className="h-25"/>

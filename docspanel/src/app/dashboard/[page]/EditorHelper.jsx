@@ -1,6 +1,6 @@
 import {BlackButton, GrayButton, StoneButton, WhiteButton} from "@/app/FlareUI/Basic/Buttons";
 import {useState} from "react";
-import {FadeOrangeButton} from "../FlareUI/Basic/Buttons";
+import {FadeOrangeButton} from "../../FlareUI/Basic/Buttons";
 function BasePopup({children, closeFunction}) {
   return (
     <div onClick={closeFunction} className="bg-white/10 backdrop-blur-[2px] z-100 fixed top-0 left-0 flex justify-center items-center w-screen h-screen">

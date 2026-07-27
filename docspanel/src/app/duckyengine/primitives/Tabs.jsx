@@ -3,8 +3,8 @@ import {EditableText} from "@/app/duckyengine/DuckyTextEditor";
 import {useContext, useMemo, useState} from "react";
 import {EditorRenderer, Renderer} from "@/app/duckyengine/Renderer";
 import {GrayButton} from "@/app/FlareUI/Basic/Buttons";
-import {NewElementPopup} from "@/app/dashboard/EditorHelper";
-import {PreviewContext} from "@/app/dashboard/page";
+import {NewElementPopup} from "@/app/dashboard/[page]/EditorHelper";
+import {PreviewContext} from "@/app/dashboard/[page]/page";
 
 function Helper({id, titles, tabs, current, setCurrent, children}) {
   return (

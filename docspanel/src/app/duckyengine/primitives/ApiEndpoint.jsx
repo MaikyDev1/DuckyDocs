@@ -1,4 +1,4 @@
-import {EditElementPopup} from "@/app/dashboard/EditorHelper";
+import {EditElementPopup} from "@/app/dashboard/[page]/EditorHelper";
 import {InputTypeBox} from "@/app/FlareUI/Basic/InteractiveFields";
 import {AsteriskIcon, BooleanIcon, HashtagIcon, QuestionMarkIcon, StringIcon} from "../../FlareUI/FlareIcons";
 

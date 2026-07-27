@@ -4,7 +4,7 @@ import {EditorRenderer, getDefaults} from "@/app/duckyengine/Renderer";
 import {DashboardIcon, DefaultUserIcon, TempLogo} from "@/app/icons";
 import {useState} from "react";
 import { Icon } from '@iconify-icon/react';
-import {NewElementPopup} from "@/app/dashboard/EditorHelper";
+import {NewElementPopup} from "@/app/dashboard/[page]/EditorHelper";
 import {GrayButton} from "@/app/FlareUI/Basic/Buttons";
 
 const page_json = {

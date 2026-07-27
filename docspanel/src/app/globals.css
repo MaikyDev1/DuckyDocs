@@ -1,4 +1,7 @@
 @import "tailwindcss";
+@import "papaya/theme.css";
+
+@source "../../node_modules/papaya/dist";
 
 :root {
   --background: #ffffff;

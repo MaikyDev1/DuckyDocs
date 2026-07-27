@@ -3,7 +3,7 @@ import {EditableText} from "@/app/duckyengine/DuckyTextEditor";
 import {useContext, useState} from "react";
 import {EditorRenderer, Renderer} from "@/app/duckyengine/Renderer";
 import {GrayButton} from "@/app/FlareUI/Basic/Buttons";
-import {PreviewContext} from "@/app/dashboard/page";
+import {PreviewContext} from "@/app/dashboard/[page]/page";
 import {Icon} from "@iconify-icon/react";
 import {PageContext} from "@/app/context/PageContext";
 import {PlusIcon} from "@/app/FlareUI/FlareIcons";
