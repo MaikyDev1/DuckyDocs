@@ -1,5 +1,12 @@
-export const fetcher = async (url) => {
-  const res = await fetch(url, { credentials: "include" });
+export const fetcher = async (url, options = {}) => {
+  const res = await fetch(url, {
+    credentials: "include",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
 
   let data;
   try {

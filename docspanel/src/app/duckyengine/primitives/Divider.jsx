@@ -1,6 +1,6 @@
 import {DeleteIcon, DuplicateIcon, EditIcon, FontSizeIcon, MoreActionsIcon, TitleIcon} from "@/app/icons";
 import {EditableText} from "@/app/duckyengine/DuckyTextEditor";
-import {EditElementPopup} from "@/app/dashboard/[page]/EditorHelper";
+import {EditElementPopup} from "@/app/dashboard/edit/[project]/EditorHelper";
 import {InputTypeBox, SelectItem, SelectTypeBox} from "@/app/FlareUI/Basic/InteractiveFields";
 import {useContext, useState} from "react";
 import {PageContext} from "@/app/context/PageContext";

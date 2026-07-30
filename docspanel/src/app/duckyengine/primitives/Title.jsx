@@ -11,7 +11,7 @@ import {
 } from "@/app/icons";
 import {EditableText} from "@/app/duckyengine/DuckyTextEditor";
 import {useContext, useState} from "react";
-import {EditElementPopup} from "@/app/dashboard/[page]/EditorHelper";
+import {EditElementPopup} from "@/app/dashboard/edit/[project]/EditorHelper";
 import {SelectItem, SelectTypeBox} from "@/app/FlareUI/Basic/InteractiveFields";
 import {PageContext} from "@/app/context/PageContext";
 import {PlusIcon} from "@/app/FlareUI/FlareIcons";

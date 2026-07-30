@@ -1,5 +1,5 @@
 import {DeleteIcon, DuplicateIcon, EditIcon, MoreActionsIcon, TitleIcon} from "@/app/icons";
-import {EditElementPopup} from "@/app/dashboard/[page]/EditorHelper";
+import {EditElementPopup} from "@/app/dashboard/edit/[project]/EditorHelper";
 import {InputTypeBox} from "@/app/FlareUI/Basic/InteractiveFields";
 import {useContext, useEffect, useLayoutEffect, useRef, useState} from "react";
 import {createHighlighter} from "shiki";

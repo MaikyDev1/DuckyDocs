@@ -1,6 +1,6 @@
 'use client'
 
-import { InputTypeBox } from "papaya";
+import {InputTypeBox, PrimaryButton} from "papaya";
 import {AccountIcon,PlusIcon} from "../../FlareUI/FlareIcons";
 import {useState} from "react";
 import {
@@ -46,22 +46,22 @@ export default function Page() {
     <main className="h-screen w-full flex lg:flex-row flex-col bg-stone-50">
       <DesktopNavigation setMenu={setMenu} menu={menu} />
       <MobileNavigation setMenu={setMenu} menu={menu} />
-      {pages[menu]}
+      {pages[menu] ?? <NotFoundMenu setMenu={setMenu}/>}
     </main>
   )
 }
 
 function DesktopNavigation({setMenu, menu}) {
   return (
-    <div className="xl:w-75 w-60 h-full border-r select-none text-stone-800 lg:flex hidden flex-col border-r-stone-300 px-5 py-3">
-      <img src="/DuckyDocsLogo.svg"/>
+    <div className="xl:w-75 w-60 h-full border-r select-none text-stone-800 lg:flex hidden gap-2 flex-col border-r-stone-300 px-5 py-3">
+      <img className="mb-1" src="/DuckyDocsLogo.svg"/>
       <InputTypeBox placeholder="Search on Dashboard"/>
       <NavBarItem
         title="Home" id="home"
         icon={<DashboardIcon className="text-xl"/>}
         setMenu={setMenu} menu={menu}
       />
-      <p className="font-mono uppercase py-2 text-sm font-bold">Projects</p>
+      <p className="font-mono uppercase text-sm font-bold">Projects</p>
       <NavBarItem
         title="Statistics" id="statistics"
         icon={<GraphIcon className="text-xl"/>}
@@ -78,7 +78,7 @@ function DesktopNavigation({setMenu, menu}) {
         setMenu={setMenu} menu={menu}
       />
 
-      <p className="font-mono uppercase py-2 text-sm font-bold">Account</p>
+      <p className="font-mono uppercase text-sm font-bold">Account</p>
       <NavBarItem
         title="Account" id="account"
         icon={<AccountIcon className="text-xl"/>}
@@ -94,7 +94,7 @@ function DesktopNavigation({setMenu, menu}) {
 }
 
 function MobileNavigation({setMenu, menu}) {
-  const [enable, setEnable] = useState(true);
+  const [enable, setEnable] = useState(false);
   return (
     <div className="lg:hidden relative col-span-full select-none text-stone-800 border-b border-b-stone-300 px-5 py-3">
       <div className="flex justify-between items-center">
@@ -151,10 +151,19 @@ export function NavBarItem({icon, title, id, menu, setMenu, updateHistory= true}
       setMenu(id);
       if (updateHistory) window.history.pushState({}, "", `/dashboard/${id}`);
     }}
-      className={`flex select-none items-center gap-3 py-2 px-3 mt-2 cursor-pointer duration-200 transition corner-squircle rounded-full 
+      className={`flex select-none items-center gap-3 py-2 px-3 cursor-pointer duration-200 transition corner-squircle rounded-full 
                   ${menu === id ? "bg-stone-200" : "hover:bg-stone-200"}`}>
       {icon}
       <p className="font-normal">{title}</p>
+    </div>
+  )
+}
+
+function NotFoundMenu({setMenu}) {
+  return (
+    <div className="text-stone-800 w-full gap-5 flex flex-col sm:px-20 px-2 items-center py-10">
+      <p className="text-2xl font-bold">This page was not found</p>
+      <PrimaryButton onClick={() => { setMenu("home"); window.history.pushState({}, "", `/dashboard/home`);}} title="Go to dashboard"/>
     </div>
   )
 }
