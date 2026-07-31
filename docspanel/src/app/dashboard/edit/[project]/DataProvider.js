@@ -46,6 +46,20 @@ export async function getSkeleton(project) {
 
 }
 
+export function addNewCategory(project, category, icon, title, order = null) {
+  const key = `s-${project}`;
+  const cached = localStorage.getItem(key);
+
+  if (cached === null) return false;
+
+  const data = JSON.parse(cached);
+  data.categories.push({
+    slug: category, name: name, icon: icon,
+    order: order ?? (Math.max(-1, ...data.categories.map(c => c.order)) + 1)
+  })
+  localStorage.setItem(key, JSON.stringify(data));
+}
+
 export function changePageInSkeleton(project, category, page, updates) {
   const key = `s-${project}`;
 
@@ -74,17 +88,36 @@ export function changePageInSkeleton(project, category, page, updates) {
 }
 
 export function createNewPage(project, category, page, icon, title, order) {
+  alert("OK!");
   const key = `p-${project}|${category}|${page}`;
   const final = {
     modified: true,
     slug: page,
     original_slug: page,
     name: title,
-    order: order,
     icon: icon,
     data: [],
   }
   localStorage.setItem(key, JSON.stringify(final));
+
+  const cached = localStorage.getItem(`s-${project}`);
+
+  if (cached === null) return false;
+
+  const skeleton = JSON.parse(cached);
+  const cat = skeleton.categories.find(c => c.slug === category);
+  if (!cat) return false;
+
+  cat.pages.push({
+    slug: page,
+    name: title,
+    icon: icon,
+    order: order ?? (Math.max(-1, ...cat.pages.map(p => p.order)) + 1),
+    modified: true,
+  });
+
+  localStorage.setItem(`s-${project}`, JSON.stringify(skeleton));
+
 }
 
 export function savePageToCache(newPage, project, category, page) {

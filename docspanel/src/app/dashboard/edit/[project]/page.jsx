@@ -153,7 +153,7 @@ export function NavBarItem({icon, title, id, menu, setMenu, updateHistory= true}
 function EditorMenu({project, skeleton}) {
   const [page, setPage] = useState({category: "root", page: skeleton.categories[0]?.pages?.[0].slug})
   return (
-    <div className="text-stone-800 w-full gap-5 flex sm:px-20 px-2 py-10">
+    <div className="text-stone-800 w-full gap-20 flex sm:px-20 px-2 py-10">
       <section className="w-1/6">
         <div className="text-2xl underline decoration-primary">
           {skeleton.project.name}

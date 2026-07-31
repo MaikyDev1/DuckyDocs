@@ -5,7 +5,7 @@ import {BasicPopup, InputTypeBox, PrimaryButton, SecondaryButton} from "papaya";
 import {useState} from "react";
 import {MoreActionsDots, PlusIcon} from "@/app/FlareUI/FlareIcons";
 import {Icon} from "@iconify-icon/react";
-import {changePageDetails} from "@/app/dashboard/edit/[project]/DataProvider";
+import {changePageDetails, createNewPage} from "@/app/dashboard/edit/[project]/DataProvider";
 
 export function PageLink({selected, icon, title, setPage, page, project, category}) {
   const [editPage, setEditPage] = useState(null);
@@ -51,11 +51,10 @@ function EditPage({setEditPage, allowDelete = true, title, slug, icon, page, cat
       setError({...error, slug: "Slug is empty"})
       return;
     }
-    if (page === null) {
-      // new page creation here
-
-    }
-    await changePageDetails(project, category, page, temp);
+    if (page === null)
+      await createNewPage(project, category, temp.slug, null, temp.name);
+    else
+      await changePageDetails(project, category, page, temp);
     mutate(["s", project]);
     setEditPage(false);
   }
@@ -85,7 +84,7 @@ function AddUnderPagePopup({setEditPage, project, category}) {
     case "category":
       return <EditPage allowDelete={false} setEditPage={setEditPage}/>
     case "page":
-      return <EditPage allowDelete={false} category={category} project={project} setEditPage={setEditPage}/>
+      return <EditPage page={null} allowDelete={false} category={category} project={project} setEditPage={setEditPage}/>
     default:
       return (
         <BasicPopup buttons={<SecondaryButton key="close" title="Close" onClick={() => setEditPage(false)}/>} onClose={() => setEditPage(false)}>
