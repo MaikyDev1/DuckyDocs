@@ -19,7 +19,7 @@ import Error from "next/error";
 
 function Helper({icon, color, text}) {
   return (
-    <div style={{backgroundColor: `${color}30`}} className="p-3 rounded-md w-full items-center flex gap-5">
+    <div className="bg-stone-100 p-3 rounded-full corner-squircle w-full items-center flex gap-5">
       <div style={{color: `${color}`}} className="text-3xl">
         {icon}
       </div>

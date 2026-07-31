@@ -11,7 +11,7 @@ import {PlusIcon} from "@/app/FlareUI/FlareIcons";
 function Helper({id, title, icon, children}) {
   const [inView, setInView] = useState(false);
   return (
-    <div key={id} className={`${inView ? "bg-stone-300/5" : ""} ring-stone-400 ring-1 rounded-xl my-1 px-6 w-full p-5`}>
+    <div key={id} className={`border border-stone-300 rounded-4xl corner-squircle my-1 px-6 w-full p-5`}>
       <div onClick={() => setInView(!inView)} className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           {icon ? <Icon className="text-2xl" icon={icon}/> : null}
@@ -19,7 +19,7 @@ function Helper({id, title, icon, children}) {
         </div>
         <DropDownArrowIcon className={`text-4xl ${!inView ? "-rotate-90" : "rotate-0"} transition-transform`}/>
       </div>
-      <div className={`${!inView ? "hidden" : "mt-2 "} transition-transform`}>
+      <div className={`${!inView ? "hidden" : "mt-2 "} transition-transform flex flex-col gap-2 `}>
         {children}
       </div>
     </div>
@@ -51,10 +51,12 @@ export function InEditor({id, title}) {
           <PlusIcon className="text-xl" onClick={() => operations.askAndInsert({addUnder: id})}/>
           <MoreActionsIcon className="text-xl" onClick={() => operations.delete(id)}/>
         </div>
-        <Helper id={id} title={<div onClick={(e) => e.stopPropagation()}><EditableText id={id} text={title}/></div>}>
+        <Helper id={id} title={
+                <div onClick={(e) => e.stopPropagation()}><EditableText id={id} text={title} updateFunction={(text) => operations.partialUpdate({ id: id, text: text })}/></div>
+        }>
           {operations.page[id] && operations.page[id].sort((a, b) => a.order - b.order).map(e => <EditorRenderer key={e.id} {...e}/>)}
-          <div className="mt-2">
-            <GrayButton title="+ Add new element" onClick={() => setNewElement(true)}/>
+          <div onClick={() => operations.askAndInsert({parent: id})} className="my-1 bg-stone-200 rounded-full flex justify-center opacity-0 hover:opacity-100 transition">
+            <PlusIcon/>
           </div>
         </Helper>
       </div>

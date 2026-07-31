@@ -5,15 +5,16 @@ import {BasicPopup, InputTypeBox, PrimaryButton, SecondaryButton} from "papaya";
 import {useState} from "react";
 import {MoreActionsDots, PlusIcon} from "@/app/FlareUI/FlareIcons";
 import {Icon} from "@iconify-icon/react";
+import {changePageDetails} from "@/app/dashboard/edit/[project]/DataProvider";
 
-export function PageLink({icon, title, setPage, page, project, category}) {
+export function PageLink({selected, icon, title, setPage, page, project, category}) {
   const [editPage, setEditPage] = useState(null);
   return (
     <div>
       {editPage && <EditPage title={title} slug={page} icon={icon} project={project} category={category} page={page} setEditPage={setEditPage}/>}
       <div onClick={() => {
         setPage({category: category, page: page});
-      }} className="flex items-center justify-between p-2 px-3 hover:bg-stone-200 transition duration-200 rounded-full corner-squircle cursor-pointer select-none"
+      }} className={`flex items-center justify-between p-2 px-3 ${selected && "bg-stone-200"} hover:bg-stone-200 transition duration-200 rounded-full corner-squircle cursor-pointer select-none`}
       >
         <div className="flex items-center gap-2">
           {icon?.startsWith("emoji:") ?
@@ -39,30 +40,24 @@ function EditPage({setEditPage, allowDelete = true, title, slug, icon, page, cat
   }
   const savePage = async () => {
     let temp = {
-      document: project,
-      category: category,
-      page: page,
-      new_title: document.getElementById("title").value,
-      new_slug: document.getElementById("slug").value
+      name: document.getElementById("title").value,
+      slug: document.getElementById("slug").value
     };
-    if (temp.new_title === undefined || temp.new_title === "") {
+    if (temp.name === undefined || temp.name === "") {
       setError({...error, title: "Title is empty"})
       return;
     }
-    if (temp.new_slug === undefined || temp.new_slug === "") {
+    if (temp.slug === undefined || temp.slug === "") {
       setError({...error, slug: "Slug is empty"})
       return;
     }
-    if (!page) {
-      temp.page = temp.new_slug;
+    if (page === null) {
+      // new page creation here
+
     }
-    const data = fetcher("/api/v1/docs/writer/page/commit", {
-      method: "POST",
-      body: JSON.stringify(temp),
-    }).then(() => {
-      setEditPage(false);
-      mutate(`/api/v1/documents/skeleton/${project}`);
-    });
+    await changePageDetails(project, category, page, temp);
+    mutate(["s", project]);
+    setEditPage(false);
   }
   return (
     <BasicPopup buttons={[<SecondaryButton key="close" title="Close" onClick={() => setEditPage(false)}/>, <PrimaryButton key="save" title="Save" onClick={() => savePage()}/>]} onClose={() => setEditPage(false)}>

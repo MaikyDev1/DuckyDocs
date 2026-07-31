@@ -5,6 +5,7 @@ import {EditorRenderer, Renderer} from "@/app/duckyengine/Renderer";
 import {GrayButton} from "@/app/FlareUI/Basic/Buttons";
 import {NewElementPopup} from "@/app/dashboard/edit/[project]/EditorHelper";
 import {PreviewContext} from "@/app/dashboard/[page]/page";
+import {PageContext} from "@/app/context/PageContext";
 
 function Helper({id, titles, tabs, current, setCurrent, children}) {
   return (
@@ -45,16 +46,18 @@ export function Tabs({id, title, tabs, titles}) {
 }
 
 export function InEditor({id, title, content, functions}) {
+  const operations = useContext(PageContext);
   const [newElement, setNewElement] = useState(false);
   return (
-    <div>
+    <div className="">
       {newElement ? <NewElementPopup addNewElement={functions.addNewElement} parentID={id} closeFunction={() => setNewElement(false)}/> : null}
       <div className="flex gap-2 relative">
         <div className="absolute cursor-pointer flex items-center h-full justify-center text-lg -translate-x-12">
           <DeleteIcon className="" onClick={() => functions.removeElement(id)}/>
         </div>
-        <Helper id={id} title={<div onClick={(e) => e.stopPropagation()}><EditableText id={id} text={title} updateFunction={functions.updateElement}/></div>}>
-          {content.map(e => <EditorRenderer key={e.id} {...e} functions={functions}/>)}
+        <Helper id={id} title={<div onClick={(e) => e.stopPropagation()}>
+          <EditableText id={id} text={title} updateFunction={(text) => operations.partialUpdate({ id: id, text: text })}/></div>}>
+          {content?.map(e => <EditorRenderer key={e.id} {...e} functions={functions}/>)}
           <div className="mt-2">
             <GrayButton title="+ Add new element" onClick={() => setNewElement(true)}/>
           </div>

@@ -15,7 +15,7 @@ export function NewElementPopup({newElement, parent, order, closeFunction}) {
         {name: "Code", default: {element: "code"}},
         {name: "Tooltip", default: {element: "tooltip", type: "error" , text: "Click to edit"}},
         {name: "Expandable", default: {element: "expand", title: "Click to edit"}},
-        {name: "Tabs", default: {element: "Tabs", tabs: 2}},
+        {name: "Tabs", default: {element: "tabs", tabs: 2}},
       ]
     },
     {name: "Advanced Blocks", elements: [
@@ -71,7 +71,6 @@ export function ProjectPreview({data, project, category, pageId}) {
           .map(element => <EditorRenderer key={element.id} {...element}/>)}
         <div className="flex gap-2">
           <SecondaryButton title="Add new element" onClick={() => operations.askAndInsert({})}/>
-          <SecondaryButton title="[^^] See page" onClick={() => console.log(page)}/>
         </div>
       </div>
     </PageContext.Provider>
@@ -159,19 +158,21 @@ function createOperations(page, update, setAddNewPopup) {
     duplicate(id) {
       this.addNew({parent: this.getParentOf(id), order: this.getOrderOf(id), element: this.getElement(id)})
     },
-    askAndInsert({addUnder = null}) {
-      setAddNewPopup({parent: addUnder !== null ? this.getParentOf(addUnder) : "root", order: this.getOrderOf !== null ? this.getOrderOf(addUnder) : null})
+    askAndInsert({addUnder = null, parent = null}) {
+      const addAt = parent === null ? addUnder !== null ? this.getParentOf(addUnder) : "root" : parent;
+      setAddNewPopup({parent: addAt, order: this.getOrderOf !== null ? this.getOrderOf(addUnder) : null})
     },
     addNew({parent = "root", order = null, element}) {
+      const parentArray = page[parent] ? page[parent] : [];
       let updatedParent;
       if (order === null) {
-        const setOrder = page[parent].length === 0
+        const setOrder = parentArray.length === 0
           ? 0
-          : Math.max(...page[parent].map(e => e.order)) + 1;
+          : Math.max(...parentArray.map(e => e.order)) + 1;
         const newElement = { ...element, id: this.getNewID(), parent, order: setOrder };
-        updatedParent = [...page[parent], newElement];
+        updatedParent = [...parentArray, newElement];
       } else {
-        const shifted = page[parent].map(e =>
+        const shifted = parentArray.map(e =>
           e.order > order ? { ...e, order: e.order + 1 } : e
         );
         const newElement = { ...element, id: crypto.randomUUID(), parent, order: order };

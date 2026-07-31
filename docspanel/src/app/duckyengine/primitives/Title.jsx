@@ -59,7 +59,7 @@ export function InEditor({id, text, size, functions}) {
         </HoverFunctionBox>
       )}
       <div className={`${sizeToTailwindSize(size)}`}>
-        <EditableText id={id} text={text} updateFunction={functions ? functions.updateElement : null}/>
+        <EditableText id={id} text={text} updateFunction={(text) => operations.partialUpdate({ id: id, text: text })}/>
       </div>
     </div>
   )

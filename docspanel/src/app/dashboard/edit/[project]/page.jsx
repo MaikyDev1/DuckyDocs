@@ -19,21 +19,22 @@ import useSWR from "swr";
 import {fetcher} from "@/app/api/fetcher";
 import {useState} from "react";
 import {AddUnderPage, PageLink} from "@/app/dashboard/edit/[project]/EditorSidebar";
-import {getPage} from "@/app/dashboard/edit/[project]/DataProvider";
+import {getPage, getSkeleton} from "@/app/dashboard/edit/[project]/DataProvider";
 
 export default function Page() {
   const project = useParams().project;
-  const { data, error, isLoading} = useSWR(`/api/v1/documents/skeleton/${project}`, fetcher);
+  const { data, error, isLoading} = useSWR(["s", project], ([, project]) => getSkeleton(project));
   const [menu, setMenu] = useState()
   return (
     <main className="h-screen w-full flex lg:flex-row flex-col bg-stone-50">
       <DesktopNavigation setMenu={setMenu} menu={menu} />
       <MobileNavigation setMenu={setMenu} menu={menu} />
       <div className="w-full">
-        <div className="border-b border-b-stone-300 w-full p-2 text-stone-800">
+        <div className="border-b border-b-stone-300 flex gap-3 items-center w-full p-2 text-stone-800">
           <PrimaryButton title="Save page" />
+          <p>This is local version of the document! Please save to persist the changes!</p>
         </div>
-        {!isLoading && <EditorMenu project={project} data={data}/>}
+        {!isLoading && <EditorMenu project={project} skeleton={data}/>}
       </div>
     </main>
   )
@@ -149,20 +150,22 @@ export function NavBarItem({icon, title, id, menu, setMenu, updateHistory= true}
 
 // ================= EDITOR CONTENT FLOW ======================
 
-function EditorMenu({project, data}) {
-  const [page, setPage] = useState({category: "root", page: "gcvjhgv"})
-
+function EditorMenu({project, skeleton}) {
+  const [page, setPage] = useState({category: "root", page: skeleton.categories[0]?.pages?.[0].slug})
   return (
     <div className="text-stone-800 w-full gap-5 flex sm:px-20 px-2 py-10">
       <section className="w-1/6">
         <div className="text-2xl underline decoration-primary">
-          {data.name}
+          {skeleton.project.name}
         </div>
-        {data.categories.map((category) => {
+        {skeleton.categories.map((category) => {
           let toReturn = [];
           if (category.slug !== "root") toReturn.push(<p className="font-mono uppercase text-sm font-bold">{category.name}</p>);
           toReturn.push(
-            category.pages.map((page) => <PageLink setPage={setPage} key={page.slug} icon={page.icon} title={page.name} category={category.slug} project={project} page={page.slug}/>)
+            category.pages.map((el) => <PageLink
+              selected={page.page === el.slug} setPage={setPage} key={el.slug} icon={el.icon}
+              title={el.name} category={category.slug} project={project} page={el.slug}
+            />)
           )
           toReturn.push(<AddUnderPage key={category.name} category={category.slug} project={project}/>)
           return toReturn;
@@ -179,11 +182,10 @@ function EditorMenu({project, data}) {
 
 
 function PagePreview ({project, page, category}) {
-  const { data, error, isLoading } =
-    useSWR(["p", project, category, page], ([, project, category, page]) => getPage(project, category, page));
+  const { data, error, isLoading } = useSWR(["p", project, category, page], ([, project, category, page]) => getPage(project, category, page));
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Failed to load. {}</div>;
-  return <ProjectPreview key={`${project}|${category}|${page}`} data={data} project={project} pageId={page} category={category}/>
+  return <ProjectPreview key={`${project}|${category}|${page}`} data={data.data} project={project} pageId={page} category={category}/>
 }
 
 // =========================== OTHER =====================================
