@@ -5,7 +5,7 @@ import {BasicPopup, InputTypeBox, PrimaryButton, SecondaryButton} from "papaya";
 import {useState} from "react";
 import {MoreActionsDots, PlusIcon} from "@/app/FlareUI/FlareIcons";
 import {Icon} from "@iconify-icon/react";
-import {changePageDetails, createNewPage} from "@/app/dashboard/edit/[project]/DataProvider";
+import {addNewCategory, changePageDetails, createNewPage} from "@/app/dashboard/edit/[project]/DataProvider";
 
 export function PageLink({selected, icon, title, setPage, page, project, category}) {
   const [editPage, setEditPage] = useState(null);
@@ -52,7 +52,7 @@ function EditPage({setEditPage, allowDelete = true, title, slug, icon, page, cat
       return;
     }
     if (page === null)
-      await createNewPage(project, category, temp.slug, null, temp.name);
+      createNewPage(project, category, temp.slug, null, temp.name);
     else
       await changePageDetails(project, category, page, temp);
     mutate(["s", project]);
@@ -78,11 +78,53 @@ function EditPage({setEditPage, allowDelete = true, title, slug, icon, page, cat
   )
 }
 
+function EditCategory({setEditPage, allowDelete = true, title, slug, icon, page, category, project}) {
+  const [error, setError] = useState({});
+  const deletePage = async () => {
+
+  }
+  const savePage = async () => {
+    let temp = {
+      name: document.getElementById("title").value,
+      slug: document.getElementById("slug").value
+    };
+    if (temp.name === undefined || temp.name === "") {
+      setError({...error, title: "Title is empty"})
+      return;
+    }
+    if (temp.slug === undefined || temp.slug === "") {
+      setError({...error, slug: "Slug is empty"})
+      return;
+    }
+    addNewCategory(project, temp.slug,null, temp.name);
+    mutate(["s", project]);
+    setEditPage(false);
+  }
+  return (
+    <BasicPopup buttons={[<SecondaryButton key="close" title="Close" onClick={() => setEditPage(false)}/>, <PrimaryButton key="save" title="Save" onClick={() => savePage()}/>]} onClose={() => setEditPage(false)}>
+      <p className="uppercase py-2 text-sm font-bold ">Create a new category</p>
+      <InputTypeBox title="Category slug" id="slug" error={error.slug} defaultText={slug}/>
+      <div className="flex gap-2 ">
+        <InputTypeBox title="Category title" id="title" error={error.title} defaultText={title}/>
+        <div className="flex flex-col justify-end">
+          <PrimaryButton title="Icon"/>
+        </div>
+      </div>
+      {allowDelete && (
+        <div>
+          <p className="text-red-600 uppercase py-2 text-sm font-bold ">Danger Zone</p>
+          <SecondaryButton title="Delete page"/>
+        </div>
+      )}
+    </BasicPopup>
+  )
+}
+
 function AddUnderPagePopup({setEditPage, project, category}) {
   const [action, setAction] = useState("none");
   switch (action) {
     case "category":
-      return <EditPage allowDelete={false} setEditPage={setEditPage}/>
+      return <EditCategory allowDelete={false} setEditPage={setEditPage} project={project}/>
     case "page":
       return <EditPage page={null} allowDelete={false} category={category} project={project} setEditPage={setEditPage}/>
     default:

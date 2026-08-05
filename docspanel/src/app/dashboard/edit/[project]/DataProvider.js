@@ -47,6 +47,7 @@ export async function getSkeleton(project) {
 }
 
 export function addNewCategory(project, category, icon, title, order = null) {
+  alert("OK!");
   const key = `s-${project}`;
   const cached = localStorage.getItem(key);
 
@@ -54,9 +55,11 @@ export function addNewCategory(project, category, icon, title, order = null) {
 
   const data = JSON.parse(cached);
   data.categories.push({
+    modified: true,
     slug: category, name: name, icon: icon,
     order: order ?? (Math.max(-1, ...data.categories.map(c => c.order)) + 1)
   })
+  console.log(data);
   localStorage.setItem(key, JSON.stringify(data));
 }
 
