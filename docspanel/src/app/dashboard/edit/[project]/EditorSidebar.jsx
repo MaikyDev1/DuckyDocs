@@ -14,7 +14,7 @@ export function PageLink({selected, icon, title, setPage, page, project, categor
       {editPage && <EditPage title={title} slug={page} icon={icon} project={project} category={category} page={page} setEditPage={setEditPage}/>}
       <div onClick={() => {
         setPage({category: category, page: page});
-      }} className={`flex items-center justify-between p-2 px-3 ${selected && "bg-stone-200"} hover:bg-stone-200 transition duration-200 rounded-full corner-squircle cursor-pointer select-none`}
+      }} className={`flex items-center justify-between mt-1 p-2 px-3 ${selected && "bg-stone-200"} hover:bg-stone-200 transition duration-200 rounded-full corner-squircle cursor-pointer select-none`}
       >
         <div className="flex items-center gap-2">
           {icon?.startsWith("emoji:") ?

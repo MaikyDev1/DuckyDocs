@@ -5,19 +5,54 @@ import {useState} from "react";
 import {InputTypeBox, PrimaryButton, SecondaryButton} from "papaya";
 import {Secular_One} from "next/dist/compiled/@next/font/dist/google";
 import Link from "next/dist/client/link";
+import {CreateNewProject} from "@/app/dashboard/[page]/HelperPopups";
+import useSWR from "swr";
+import {fetcher} from "@/app/api/fetcher";
+
+function getPopup(popup, setPopup) {
+  switch (popup) {
+    case "createNewProject":
+      return <CreateNewProject setPopup={setPopup} onClose={() => setPopup(null)}/>
+  }
+}
 
 export function ProjectsMenu() {
+  const [popup, setPopup] = useState(null);
+  const {data, isLoading, error} = useSWR("/api/v1/documents/projects", fetcher);
   return (
     <div className="text-stone-800 w-full gap-5 flex flex-col sm:px-20 px-2 items-center py-10">
+      {popup && getPopup(popup, setPopup)}
       <div className="xl:w-1/2 lg:w-2/3 w-full">
         <section className="flex justify-between items-center">
           <p className="font-semibold text-xl underline decoration-primary">Your projects</p>
-          <PrimaryButton title="New project"/>
+          <PrimaryButton title="New project" onClick={() => setPopup("createNewProject")}/>
         </section>
         <section className="mt-5 flex flex-col gap-2">
-          <ProjectBox title="Example" id="test"/>
-          <ProjectBox title="Cum sa faci" isPrivate={true}/>
+          {isLoading ? <EmptyProjectBox/> :
+            data?.map((project) =>
+              <ProjectBox key={project.slug} title={project.name} id={project.slug}/>
+            )
+          }
         </section>
+      </div>
+    </div>
+  )
+}
+
+function EmptyProjectBox() {
+  return (
+    <div className="rounded-4xl border select-none border-stone-300 corner-squircle">
+      <div className="px-5 py-3">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-1">
+            <p className="font-semibold bg-stone-200 animate-pulse h-8 w-20 corner-squircle rounded-full"></p>
+          </div>
+          <div className="flex gap-2 animate-pulse">
+            <SecondaryButton/>
+            <PrimaryButton/>
+          </div>
+        </div>
+        <p className="text-sm animate-pulse opacity-20">Loading...</p>
       </div>
     </div>
   )

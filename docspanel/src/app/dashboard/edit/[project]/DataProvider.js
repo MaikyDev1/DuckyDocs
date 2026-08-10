@@ -6,7 +6,49 @@ import {fetcher} from "@/app/api/fetcher";
  * @returns {Promise<void>}
  */
 export async function commitAll(project) {
+  const categories = getProjectEntries(project);
+  for (const category of categories) {
+    const content = category.content;
+    if (!content.modified) continue;
 
+    const elements = Object.values(content.data).flat();
+
+    let payload = {
+      document: project,
+      category: category.category,
+      page: content.original_slug,
+
+      new_slug: category.page,
+      new_title: content.name,
+      new_icon: content.icon,
+      new_order: content.order,
+
+    }
+    if (elements.length > 0) {
+      payload.elements = elements;
+    }
+    await fetcher("/api/v1/docs/writer/page/commit", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    })
+  }
+}
+
+function getProjectEntries(project) {
+  const prefix = `p-${project}|`;
+
+  return Object.keys(localStorage)
+    .filter(key => key.startsWith(prefix))
+    .map(key => {
+      const [projectPart, category, page] = key.split("|");
+
+      return {
+        project: projectPart.substring(2),
+        category,
+        page,
+        content: JSON.parse(localStorage.getItem(key))
+      };
+    });
 }
 
 export async function getSkeleton(project) {
@@ -56,8 +98,9 @@ export function addNewCategory(project, category, icon, title, order = null) {
   const data = JSON.parse(cached);
   data.categories.push({
     modified: true,
-    slug: category, name: name, icon: icon,
-    order: order ?? (Math.max(-1, ...data.categories.map(c => c.order)) + 1)
+    slug: category, name: title, icon: icon,
+    order: order ?? (Math.max(-1, ...data.categories.map(c => c.order)) + 1),
+    pages: [],
   })
   console.log(data);
   localStorage.setItem(key, JSON.stringify(data));
@@ -91,7 +134,6 @@ export function changePageInSkeleton(project, category, page, updates) {
 }
 
 export function createNewPage(project, category, page, icon, title, order) {
-  alert("OK!");
   const key = `p-${project}|${category}|${page}`;
   const final = {
     modified: true,

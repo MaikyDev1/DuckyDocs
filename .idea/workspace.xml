@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="a7525dde-a477-4048-8adb-6b33d819f311" name="Changes" comment="changed elements and added new ones" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Merge.Settings">
+    <option name="BRANCH" value="origin/main" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="switch-to-json" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;MaikyDev1&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/MaikyDev1/DuckyDocs.git&quot;,
+    &quot;accountId&quot;: &quot;b0b584cc-ade6-4f27-944e-2239805c7fe1&quot;
+  }
+}</component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2kNKoPWpfykQukkGS4zxl0GzT6h" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "git-widget-placeholder": "rework-rendering",
+    "javascript.nodejs.core.library.configured.version": "22.9.0",
+    "javascript.nodejs.core.library.typings.version": "22.9.4",
+    "javascript.preferred.runtime.type.id": "node",
+    "js.debugger.nextJs.config.created.client": "true",
+    "js.debugger.nextJs.config.created.server": "true",
+    "last_opened_file_path": "/Users/maikydev/Documents/DuckySoftwares/duckydocs/ducky",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "node",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "editor.stickyLines",
+    "ts.external.directory.path": "/Users/maikydev/Applications/WebStorm.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/ducky" />
+      <recent name="$PROJECT_DIR$/ducky/test/howto" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/app/editor" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/public" />
+    </key>
+  </component>
+  <component name="RunManager" selected="npm.Next.js: server-side">
+    <configuration name="Next.js: debug client-side" type="JavascriptDebugType" uri="http://localhost:3000/">
+      <method v="2" />
+    </configuration>
+    <configuration name="Next.js: server-side" type="js.build_tools.npm">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-WS-253.29346.242" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a7525dde-a477-4048-8adb-6b33d819f311" name="Changes" comment="" />
+      <created>1723118769275</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1723118769275</updated>
+      <workItem from="1723118770386" duration="4734000" />
+      <workItem from="1726577152548" duration="1337000" />
+      <workItem from="1727967430813" duration="116000" />
+      <workItem from="1734425605077" duration="9156000" />
+      <workItem from="1736666027925" duration="1164000" />
+      <workItem from="1744801436445" duration="3948000" />
+      <workItem from="1745751685453" duration="56104000" />
+      <workItem from="1758541092080" duration="28020000" />
+      <workItem from="1759992907180" duration="3002000" />
+      <workItem from="1760181739731" duration="3527000" />
+      <workItem from="1770376438428" duration="9449000" />
+      <workItem from="1771839352099" duration="7088000" />
+      <workItem from="1772453246194" duration="20225000" />
+      <workItem from="1783788996389" duration="469000" />
+      <workItem from="1783854545750" duration="7000" />
+      <workItem from="1783967872714" duration="183000" />
+      <workItem from="1785917346492" duration="195000" />
+      <workItem from="1785917552757" duration="129000" />
+    </task>
+    <task id="LOCAL-00001" summary="Started working at parser">
+      <option name="closed" value="true" />
+      <created>1726577223069</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1726577223069</updated>
+    </task>
+    <task id="LOCAL-00002" summary="checkpoint for .ducky files">
+      <option name="closed" value="true" />
+      <created>1758541962383</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1758541962384</updated>
+    </task>
+    <task id="LOCAL-00003" summary="changed elements and added new ones">
+      <option name="closed" value="true" />
+      <created>1771839374665</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1771839374665</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Started working at parser" />
+    <MESSAGE value="checkpoint for .ducky files" />
+    <MESSAGE value="changed elements and added new ones" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed elements and added new ones" />
+  </component>
+</project>

@@ -19,7 +19,7 @@ import useSWR from "swr";
 import {fetcher} from "@/app/api/fetcher";
 import {useState} from "react";
 import {AddUnderPage, PageLink} from "@/app/dashboard/edit/[project]/EditorSidebar";
-import {getPage, getSkeleton} from "@/app/dashboard/edit/[project]/DataProvider";
+import {commitAll, getPage, getSkeleton} from "@/app/dashboard/edit/[project]/DataProvider";
 
 export default function Page() {
   const project = useParams().project;
@@ -31,7 +31,7 @@ export default function Page() {
       <MobileNavigation setMenu={setMenu} menu={menu} />
       <div className="w-full">
         <div className="border-b border-b-stone-300 flex gap-3 items-center w-full p-2 text-stone-800">
-          <PrimaryButton title="Save page" />
+          <PrimaryButton title="Save page" onClick={() => commitAll(project)}/>
           <p>This is local version of the document! Please save to persist the changes!</p>
         </div>
         {!isLoading && <EditorMenu project={project} skeleton={data}/>}
@@ -160,14 +160,14 @@ function EditorMenu({project, skeleton}) {
         </div>
         {skeleton.categories.map((category) => {
           let toReturn = [];
-          if (category.slug !== "root") toReturn.push(<p className="font-mono uppercase text-sm font-bold">{category.name}</p>);
+          if (category.slug !== "root") toReturn.push(<p key={category.slug} className="font-mono uppercase text-sm font-bold">{category.name}</p>);
           toReturn.push(
             category.pages.map((el) => <PageLink
               selected={page.page === el.slug} setPage={setPage} key={el.slug} icon={el.icon}
               title={el.name} category={category.slug} project={project} page={el.slug}
             />)
           )
-          toReturn.push(<AddUnderPage key={category.name} category={category.slug} project={project}/>)
+          toReturn.push(<AddUnderPage key={category.name+category.slug + ""} category={category.slug} project={project}/>)
           return toReturn;
         })}
       </section>
