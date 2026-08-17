@@ -8,6 +8,11 @@ export const fetcher = async (url, options = {}) => {
     },
   });
 
+  if (res.status === 401) {
+    window.location.assign("/account/login");
+    return;
+  }
+
   let data;
   try {
     data = await res.json();

@@ -6,19 +6,39 @@ import {fetcher} from "@/app/api/fetcher";
  * @returns {Promise<void>}
  */
 export async function commitAll(project) {
-  const categories = getProjectEntries(project);
-  for (const category of categories) {
-    const content = category.content;
+  // UPDATE / ADD the categories!
+  const key = `s-${project}`;
+  const categories = JSON.parse(localStorage.getItem(key));
+  for (const category of categories.categories) {
+    if (!category.modified) continue;
+    let payload = {
+      document: project,
+      category: category.original_slug,
+
+      new_slug: category.slug,
+      new_title: category.name,
+      new_icon: category.icon,
+      new_order: category.order,
+    }
+    await fetcher("/api/v1/docs/writer/category/commit", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    })
+  }
+  // UPDATE ALL PAGES
+  const pages = getProjectEntries(project);
+  for (const page of pages) {
+    const content = page.content;
     if (!content.modified) continue;
 
     const elements = Object.values(content.data).flat();
 
     let payload = {
       document: project,
-      category: category.category,
+      category: page.category,
       page: content.original_slug,
 
-      new_slug: category.page,
+      new_slug: page.page,
       new_title: content.name,
       new_icon: content.icon,
       new_order: content.order,
@@ -84,12 +104,11 @@ export async function getSkeleton(project) {
   });
   localStorage.setItem(key, JSON.stringify(data));
 
-  return fetchedPage;
+  return data;
 
 }
 
 export function addNewCategory(project, category, icon, title, order = null) {
-  alert("OK!");
   const key = `s-${project}`;
   const cached = localStorage.getItem(key);
 
@@ -98,7 +117,7 @@ export function addNewCategory(project, category, icon, title, order = null) {
   const data = JSON.parse(cached);
   data.categories.push({
     modified: true,
-    slug: category, name: title, icon: icon,
+    slug: category, original_slug: category, name: title, icon: icon,
     order: order ?? (Math.max(-1, ...data.categories.map(c => c.order)) + 1),
     pages: [],
   })

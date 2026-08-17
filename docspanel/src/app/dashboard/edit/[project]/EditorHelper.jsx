@@ -155,6 +155,85 @@ function createOperations(page, update, setAddNewPopup) {
         ])
       ));
     },
+
+    moveUp(id) {
+      const element = this.getElement(id);
+
+      if (!element) return false;
+
+      const parent = element.parent;
+      const parentArray = page[parent];
+
+      if (!parentArray) return false;
+
+      const index = parentArray.findIndex(e => e.id === id);
+
+      if (index <= 0) return false;
+
+      const previous = parentArray[index - 1];
+
+      const updatedParent = parentArray
+        .map(e => {
+          if (e.id === id) {
+            return { ...e, order: previous.order };
+          }
+
+          if (e.id === previous.id) {
+            return { ...e, order: element.order };
+          }
+
+          return e;
+        })
+        .sort((a, b) => a.order - b.order);
+
+      update({
+        ...page,
+        [parent]: updatedParent
+      });
+
+      return true;
+    },
+
+    moveDown(id) {
+      const element = this.getElement(id);
+
+      if (!element) return false;
+
+      const parent = element.parent;
+      const parentArray = page[parent];
+
+      if (!parentArray) return false;
+
+      const index = parentArray.findIndex(e => e.id === id);
+
+      if (index === -1 || index >= parentArray.length - 1) {
+        return false;
+      }
+
+      const next = parentArray[index + 1];
+
+      const updatedParent = parentArray
+        .map(e => {
+          if (e.id === id) {
+            return { ...e, order: next.order };
+          }
+
+          if (e.id === next.id) {
+            return { ...e, order: element.order };
+          }
+
+          return e;
+        })
+        .sort((a, b) => a.order - b.order);
+
+      update({
+        ...page,
+        [parent]: updatedParent
+      });
+
+      return true;
+    },
+
     duplicate(id) {
       this.addNew({parent: this.getParentOf(id), order: this.getOrderOf(id), element: this.getElement(id)})
     },

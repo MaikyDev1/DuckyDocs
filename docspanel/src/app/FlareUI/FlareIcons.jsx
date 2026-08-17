@@ -59,14 +59,8 @@ export function DuckIcon(props) {
 export function PlusIcon(props) {
   return (
     <svg  {...props} xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-      <g fill="none" stroke="currentColor" strokeDasharray={16} strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}>
-        <path d="M5 12h14">
-          <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="16;0"></animate>
-        </path>
-        <path strokeDashoffset={16} d="M12 5v14">
-          <animate fill="freeze" attributeName="stroke-dashoffset" begin="0.5s" dur="0.5s" to={0}></animate>
-        </path>
-      </g>
+      <path d="M0 0h24v24H0z" fill="none" />
+      <path fill="currentColor" d="M18 12.998h-5v5a1 1 0 0 1-2 0v-5H6a1 1 0 0 1 0-2h5v-5a1 1 0 0 1 2 0v5h5a1 1 0 0 1 0 2" />
     </svg>
   )
 }

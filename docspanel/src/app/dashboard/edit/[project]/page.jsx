@@ -29,12 +29,12 @@ export default function Page() {
     <main className="h-screen w-full flex lg:flex-row flex-col bg-stone-50">
       <DesktopNavigation setMenu={setMenu} menu={menu} />
       <MobileNavigation setMenu={setMenu} menu={menu} />
-      <div className="w-full">
+      <div className="w-full overflow-auto">
         <div className="border-b border-b-stone-300 flex gap-3 items-center w-full p-2 text-stone-800">
           <PrimaryButton title="Save page" onClick={() => commitAll(project)}/>
           <p>This is local version of the document! Please save to persist the changes!</p>
         </div>
-        {!isLoading && <EditorMenu project={project} skeleton={data}/>}
+        {error ? JSON.stringify(error) : (!isLoading && <EditorMenu project={project} skeleton={data}/>)}
       </div>
     </main>
   )

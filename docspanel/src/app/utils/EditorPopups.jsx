@@ -1,58 +1,21 @@
 import {useLayoutEffect, useRef, useState} from "react";
-import {DeleteIcon, DropDownArrowIcon, DuplicateIcon} from "@/app/icons";
-import {InputTypeBox} from "../FlareUI/Basic/InteractiveFields";
-import {FadeOrangeButton, GrayButton} from "@/app/FlareUI/Basic/Buttons";
-
-function Popup({children, closeFunction}) {
-  return (
-    <div onClick={closeFunction} className="bg-white/10  text-stone-100 backdrop-blur-[2px] z-100 fixed top-0 left-0 flex justify-center items-center w-screen h-screen">
-      <div className="p-2 flex items-center justify-between flex-col py-5 rounded-2xl shadow-2xl  bg-stone-800 min-h-1/4" onClick={(e) => e.stopPropagation()}>
-        {children}
-      </div>
-    </div>
-  )
-}
+import {DropDownArrowIcon} from "@/app/icons";
+import {BasicPopup, PrimaryButton, SecondaryButton, InputTypeBox} from "papaya";
 
 export function AskForInput({ closeFunction, defaultValue = "", onSubmit, children }) {
   const [value, setValue] = useState(defaultValue);
 
   return (
-    <Popup closeFunction={closeFunction}>
+    <BasicPopup onClose={closeFunction} buttons={[
+      <SecondaryButton key="close-btn" onClick={closeFunction} title="Close"/>,
+      <PrimaryButton key="save-btn" title="Confirm" onClick={() => {onSubmit?.(value);closeFunction();}}/>
+    ]}>
       <div className="my-2 py-2 items-center min-w-100 px-4 flex flex-col gap-2">
         {children}
         <InputTypeBox autoFocus={true} defaultValue={value} onChange={(e) => setValue(e.target.value)}/>
       </div>
-
-      <div className="flex gap-2">
-        <GrayButton
-          title="Cancel"
-          onClick={closeFunction}
-        />
-
-        <FadeOrangeButton
-          title="Save"
-          onClick={() => {
-            onSubmit?.(value);
-            closeFunction();
-          }}
-        />
-      </div>
-    </Popup>
+    </BasicPopup>
   );
-}
-
-export function CloseablePopup({closeFunction, children}) {
-  return (
-    <Popup closeFunction={closeFunction}>
-      <div className="my-2 py-2 items-center min-w-70 px-4 flex flex-col gap-2">
-        {children}
-      </div>
-      <div className="w-1/2 flex flex-col">
-        <FadeOrangeButton title="Close" onClick={closeFunction}/>
-        <FadeOrangeButton title="Close" onClick={closeFunction}/>
-      </div>
-    </Popup>
-  )
 }
 
 export function HoverFunctionBox({x, y, closeFunction, children}) {
@@ -65,7 +28,7 @@ export function HoverFunctionBox({x, y, closeFunction, children}) {
 
     const padding = 10;
 
-    let newX = x - rect.width / 2;
+    let newX = x - rect.width  / 1.7;
     let newY = y - rect.height / 2;
 
     // clamp X
@@ -90,7 +53,7 @@ export function HoverFunctionBox({x, y, closeFunction, children}) {
         position: "fixed",
         left: x,
         top: y,
-      }} className="p-2 rounded-lg -translate-x-10 gap-1 z-50 flex flex-col bg-stone-900 select-none cursor-pointer text-white">
+      }} className="p-3 rounded-4xl -translate-x-10 gap-1 z-50 text-lg flex flex-col text-stone-800 bg-stone-200 shadow-lg corner-squircle select-none cursor-pointer ">
       {children}
     </div>
   )
@@ -98,7 +61,7 @@ export function HoverFunctionBox({x, y, closeFunction, children}) {
 
 export function SimpleButton({onClick, title, icon}) {
   return (
-    <div onClick={onClick} className="text-lg flex gap-1 items-center px-2 hover:bg-white/10 rounded">
+    <div onClick={onClick} className="text-lg flex gap-1 items-center px-2 hover:bg-stone-800/20 rounded-full corner-squircle">
       {icon}
       <p>{title}</p>
     </div>
@@ -118,7 +81,7 @@ export function SimpleHoverableButton({children, title, icon}) {
 
       {/* IMPORTANT: hover area bridge */}
       <div className="absolute top-0 left-full ml-0 pl-2 hidden group-hover/btn:block">
-        <div className="p-2 bg-stone-800 rounded-lg flex flex-col gap-1 min-w-30">
+        <div className="p-2 text-stone-800 bg-stone-200 shadow-lg corner-squircle rounded-4xl flex flex-col gap-1 min-w-30">
           {children}
         </div>
       </div>

@@ -27,7 +27,7 @@ function Helper({id, title, icon, children}) {
 }
 
 export function Expand({id, title, icon}) {
-  const data = useContext(PreviewContext);
+  const data = useContext(PageContext);
   if (data === undefined)
     return (
       <Helper id={id} title={title}>
@@ -46,7 +46,7 @@ export function Expand({id, title, icon}) {
 export function InEditor({id, title}) {
   const operations = useContext(PageContext);
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 relative">
         <div className="absolute flex gap-1 cursor-pointer transition group-focus-within:opacity-100 group-hover:opacity-100 hover:opacity-100 text-lg z-10 opacity-0 -translate-x-15 w-20">
           <PlusIcon className="text-xl" onClick={() => operations.askAndInsert({addUnder: id})}/>
           <MoreActionsIcon className="text-xl" onClick={() => operations.delete(id)}/>
